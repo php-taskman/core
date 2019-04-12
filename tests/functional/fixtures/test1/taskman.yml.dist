@@ -1,0 +1,3 @@
+commands:
+    testB:
+        - ls -la

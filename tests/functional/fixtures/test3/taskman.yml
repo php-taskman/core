@@ -1,0 +1,15 @@
+test:
+    verbosity: full
+
+commands:
+    testD:
+        tasks:
+            - ls -la
+        options:
+            verbosity:
+                shortcut:
+                    - z
+                    - w
+                mode: 4
+                description: 'The verbosity option.'
+                default: ${test.verbosity}

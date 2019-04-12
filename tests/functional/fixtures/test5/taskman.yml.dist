@@ -1,0 +1,12 @@
+test:
+    command: touch
+
+commands:
+    testE:
+        - { task: "mkdir", dir: "mkdir" }
+    testF:
+        - { task: "remove", file: "mkdir" }
+    testG:
+        - { task: "${test.command}", file: "${test.command}" }
+    testH:
+        - { task: "remove", file: "${test.command}" }

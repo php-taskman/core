@@ -1,0 +1,46 @@
+{
+    "name": "phptaskman/core",
+    "type": "library",
+    "description": "A friendly PHP tasks launcher.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pol Dellaiera",
+            "email": "pol.dellaiera@protonmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "consolidation/robo": "^1.4",
+        "symfony/finder": "^3.2 || ^4"
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.5",
+        "drupol/php-conventions": "^1.3.2"
+    },
+    "suggest": {
+        "php-taskman/drupal": "Provides Drupal related commands.",
+        "php-taskman/package": "Provides commands to create a package out of your sources."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpTaskman\\Core\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpTaskman\\Core\\Tests\\": "tests"
+        }
+    },
+    "bin": [
+        "bin/taskman"
+    ],
+    "scripts": {
+        "codecept": "./vendor/bin/codecept run",
+        "codecept-coverage": "./vendor/bin/codecept run --coverage --coverage-xml --env travis",
+        "grumphp": "./vendor/bin/grumphp run"
+    }
+}

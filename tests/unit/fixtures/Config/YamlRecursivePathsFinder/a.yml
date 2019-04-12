@@ -1,0 +1,5 @@
+imports:
+    - { resource: "tests/unit/fixtures/Config/YamlRecursivePathsFinder/b.yml" }
+
+parameters:
+    a: a

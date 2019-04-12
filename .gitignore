@@ -1,0 +1,9 @@
+/composer.lock
+/vendor/
+/.idea/
+/grumphp.yml
+/build
+/tests/functional/fixtures/*/vendor
+/tests/functional/fixtures/*/composer.lock
+/tests/_output/
+codeception.yml

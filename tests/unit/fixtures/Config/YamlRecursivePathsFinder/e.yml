@@ -1,0 +1,6 @@
+imports:
+    - { resource: "kdflksdj" }
+    - { resource: "tests/unit/fixtures/Config/YamlRecursivePathsFinder/a.yml" }
+
+parameters::
+    d: d:

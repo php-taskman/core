@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Task\CollectionFactory;
 
 use PhpTaskman\Core\Contract\ConfigurationTokensAwareInterface;
+use PhpTaskman\Core\Robo\Task\FileEdition\LoadFileEditionTasks;
 use PhpTaskman\Core\Robo\Task\Filesystem\LoadFilesystemTasks;
 use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use PhpTaskman\Core\Traits\ConfigurationTokensTrait;
@@ -28,6 +29,7 @@ final class CollectionFactory extends BaseTask implements
 {
     use ConfigurationTokensTrait;
     use LoadAllTasks;
+    use LoadFileEditionTasks;
     use LoadFilesystemTasks;
     use LoadProcessConfigFileTasks;
 
@@ -251,15 +253,33 @@ final class CollectionFactory extends BaseTask implements
         }
 
         switch ($task['task']) {
+            case 'append':
+                $file = $task['file'];
+
+                return $this->collectionBuilder()->addTaskList([
+                    $this->taskWriteToFile($file)->append()->text($task['text']),
+                    $this->taskProcessConfigFile($file, $file),
+                ]);
+
+            case 'concat':
+                $to = $task['to'];
+
+                return $this->collectionBuilder()->addTaskList([
+                    $this->taskConcat($task['files'])->to($to),
+                    $this->taskProcessConfigFile($to, $to),
+                ]);
+
+            case 'prepend':
+                $file = $task['file'];
+
+                return $this->collectionBuilder()->addTaskList([
+                    $this->taskWritePrependToFile($file)->prepend()->text($task['text']),
+                    $this->taskProcessConfigFile($file, $file),
+                ]);
+
             case 'process':
                 return $this->collectionBuilder()->addTaskList([
                     $this->taskProcessConfigFile($task['source'], $task['destination']),
-                ]);
-
-            case 'append':
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskWriteToFile($task['file'])->append()->text($task['text']),
-                    $this->taskProcessConfigFile($task['file'], $task['file']),
                 ]);
 
             case 'run':
@@ -289,6 +309,13 @@ final class CollectionFactory extends BaseTask implements
                 }
 
                 return $taskExec;
+
+            case 'write':
+                return $this->collectionBuilder()->addTaskList([
+                    $this->taskWriteToFile($task['file'])->text($task['text']),
+                    $this->taskProcessConfigFile($task['file'], $task['file']),
+                ]);
+
             default:
                 throw new TaskException($this, "Task '{$task['task']}' not supported.");
         }

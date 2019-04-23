@@ -121,9 +121,10 @@ At the moment the following tasks are supported:
 | `symlink`     | `from`, `to`, `copyOnWindows` (false) |
 | `mirror`      | `from`, `to` |
 | `process`     | `from`, `to` |
-| `process-php` | `type: append`, `config`, `source`, `destination`, `override` (false) |
-| `process-php` | `type: prepend`, `config`, `source`, `destination`, `override` (false) |
-| `process-php` | `type: write`, `config`, `source`, `destination`, `override` (false) |
+| `append`      | `file`, `text` |
+| `prepend`     | `file`, `text` |
+| `write`       | `file`, `text` |
+| `concat`      | `files`, `to` |
 | `run`         | `command` (will run `./vendor/bin/taskman [command]`) |
 
 Tasks provided as plain-text strings will be executed as is in the current working directory.

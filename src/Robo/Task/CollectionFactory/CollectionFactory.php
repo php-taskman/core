@@ -56,7 +56,7 @@ final class CollectionFactory extends BaseTask implements
      */
     public function getHelp()
     {
-        return $this->tasks['help'] ?? 'Yaml command defined in tasks.yml';
+        return isset($this->tasks['help']) ? $this->tasks['help'] : 'Yaml command defined in tasks.yml';
     }
 
     /**
@@ -64,7 +64,7 @@ final class CollectionFactory extends BaseTask implements
      */
     public function getTasks()
     {
-        return $this->tasks['tasks'] ?? $this->tasks;
+        return empty($this->tasks['tasks']) ? $this->tasks : $this->tasks['tasks'];
     }
 
     /**
@@ -125,7 +125,7 @@ final class CollectionFactory extends BaseTask implements
      */
     protected function secureOption(array &$task, $name, $default)
     {
-        $task[$name] = $task[$name] ?? $default;
+        $task[$name] = isset($task[$name]) ? $task[$name] : $default;
     }
 
     /**

@@ -32,7 +32,7 @@ final class Taskman
      */
     public static function createConfiguration($paths, $workingDir = null)
     {
-        $workingDir = $workingDir ?? \getcwd();
+        $workingDir = $workingDir === null ? \getcwd() : $workingDir;
 
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
@@ -86,8 +86,8 @@ final class Taskman
      */
     public static function createDefaultApplication($appName = null, $appVersion = null, $workingDir = null)
     {
-        $appName = $appName ?? self::APPLICATION_NAME;
-        $appVersion = $appVersion ?? self::VERSION;
+        $appName = $appName === null ? self::APPLICATION_NAME : $appName;
+        $appVersion = $appVersion === null ? self::VERSION : $appVersion;
 
         $app = Robo::createDefaultApplication($appName, $appVersion);
 

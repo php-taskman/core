@@ -64,9 +64,9 @@ final class Runner
         OutputInterface $output = null,
         ClassLoader $classLoader = null
     ) {
-        $this->input = $input ?? new ArgvInput();
-        $this->output = $output ?? new ConsoleOutput();
-        $this->classLoader = $classLoader ?? new ClassLoader();
+        $this->input = $input === null ? new ArgvInput() : $input;
+        $this->output = $output === null ? new ConsoleOutput() : $output;
+        $this->classLoader = $classLoader === null ? new ClassLoader() : $classLoader;
 
         $this->workingDir = $this->getWorkingDir($this->input);
         \chdir($this->workingDir);
@@ -199,7 +199,7 @@ final class Runner
 
                 $option['mode'] = $this->getCommandArgumentMode(
                     isset($option['default']),
-                    $option['default'] ?? null
+                    isset($option['default']) ? $option['default'] : null
                 );
             }
 

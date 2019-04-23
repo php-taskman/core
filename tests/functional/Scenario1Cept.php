@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 $I = new FunctionalTester($scenario);
 $I->wantTo('Check if the file taskman.yml.dist is properly taken in account.');
 $I->amInPath(\realpath(__DIR__ . '/fixtures/test1'));

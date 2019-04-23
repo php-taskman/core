@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Tests\unit\Config;
 
 use Codeception\Test\Unit;

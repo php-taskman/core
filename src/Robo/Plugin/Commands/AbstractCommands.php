@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\Config\Loader\ConfigProcessor;
@@ -35,7 +33,7 @@ abstract class AbstractCommands implements
      *
      * @return string
      */
-    abstract public function getConfigurationFile(): string;
+    abstract public function getConfigurationFile();
 
     /**
      * Path to YAML configuration file containing command defaults.
@@ -45,7 +43,7 @@ abstract class AbstractCommands implements
      * @return string
      *   The path of the default configuration file.
      */
-    abstract public function getDefaultConfigurationFile(): string;
+    abstract public function getDefaultConfigurationFile();
 
     /**
      * Load default configuration.

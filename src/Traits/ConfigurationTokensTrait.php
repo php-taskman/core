@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Traits;
 
 /**
@@ -16,7 +14,7 @@ trait ConfigurationTokensTrait
      *
      * @return array
      */
-    public function extractProcessedTokens($text): array
+    public function extractProcessedTokens($text)
     {
         /** @var \Robo\Config\Config $config */
         $config = $this->getConfig();
@@ -36,7 +34,7 @@ trait ConfigurationTokensTrait
      *
      * @return array
      */
-    private function extractRawTokens($text): array
+    private function extractRawTokens($text)
     {
         \preg_match_all('/\$\{(([A-Za-z_\-]+\.?)+)\}/', $text, $matches);
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Config\Loader;
 
 use Consolidation\Config\Loader\ConfigLoader;

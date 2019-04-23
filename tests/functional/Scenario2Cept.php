@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 $I = new FunctionalTester($scenario);
 $I->wantTo('Check if a random file is properly included from composer.json configuration.');
 $I->amInPath(\realpath(__DIR__ . '/fixtures/test2'));

@@ -1,12 +1,9 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use PhpTaskman\Core\Robo\Task\CollectionFactory\LoadCollectionFactoryTasks;
-use Robo\Collection\CollectionBuilder;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
@@ -24,7 +21,7 @@ final class YamlCommands extends AbstractCommands
      *
      * @hook pre-command-event *
      */
-    public function bindInputOptionsToConfig(ConsoleCommandEvent $event): void
+    public function bindInputOptionsToConfig(ConsoleCommandEvent $event)
     {
         $command = $event->getCommand();
 
@@ -78,7 +75,7 @@ final class YamlCommands extends AbstractCommands
     /**
      * {@inheritdoc}
      */
-    public function getConfigurationFile(): string
+    public function getConfigurationFile()
     {
         return __DIR__ . '/../../../../config/commands/default.yml';
     }
@@ -86,7 +83,7 @@ final class YamlCommands extends AbstractCommands
     /**
      * {@inheritdoc}
      */
-    public function getDefaultConfigurationFile(): string
+    public function getDefaultConfigurationFile()
     {
         return __DIR__ . '/../../../../config/default.yml';
     }
@@ -100,7 +97,7 @@ final class YamlCommands extends AbstractCommands
      *
      * @return \Robo\Collection\CollectionBuilder
      */
-    public function runTasks(): CollectionBuilder
+    public function runTasks()
     {
         $command = $this->input()->getArgument('command');
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace PhpTaskman\Core\Contract;
 
 /**
@@ -16,5 +14,5 @@ interface ConfigurationTokensAwareInterface
      *
      * @return array
      */
-    public function extractProcessedTokens($text): array;
+    public function extractProcessedTokens($text);
 }

@@ -145,7 +145,7 @@ final class Taskman
      * @param null|Config $config
      *   A config object.
      */
-    public static function loadJsonConfiguration(array $paths, ?Config $config)
+    public static function loadJsonConfiguration(array $paths, Config $config = null)
     {
         if (null === $config) {
             $config = Robo::config();

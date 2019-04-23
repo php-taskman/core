@@ -12,7 +12,7 @@
     "require": {
         "php": ">= 5.6",
         "ext-json": "*",
-        "consolidation/robo": "^1.4"
+        "consolidation/robo": "^1.4.9"
     },
     "require-dev": {
         "codeception/codeception": "^2.5",

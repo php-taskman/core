@@ -19,8 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class Taskman
 {
-    public const APPLICATION_NAME = 'Taskman';
-    public const VERSION = 'dev-master';
+    const APPLICATION_NAME = 'Taskman';
+    const VERSION = 'dev-master';
 
     /**
      * Create default configuration.

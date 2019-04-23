@@ -225,6 +225,7 @@ final class CollectionFactory extends BaseTask implements
                 'parameters' => [
                     'from',
                     'to',
+                    'copyOnWindows',
                 ],
             ],
             'mirror' => [

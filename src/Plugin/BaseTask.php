@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace PhpTaskman\Core\Plugin\Task;
+namespace PhpTaskman\Core\Plugin;
 
 use PhpTaskman\Core\Contract\TaskInterface;
 use Robo\Contract\BuilderAwareInterface;

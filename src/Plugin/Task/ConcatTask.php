@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace PhpTaskman\Core\Plugin\Task;
 
+use PhpTaskman\Core\Plugin\BaseTask;
 use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Task\File\loadTasks;
@@ -19,7 +20,6 @@ final class ConcatTask extends BaseTask
         'files',
         'to',
     ];
-
     public const NAME = 'concat';
 
     /**

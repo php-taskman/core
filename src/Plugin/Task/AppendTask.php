@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace PhpTaskman\Core\Plugin\Task;
 
+use PhpTaskman\Core\Plugin\BaseTask;
 use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Task\File\loadTasks;
 
@@ -16,7 +17,6 @@ final class AppendTask extends BaseTask
         'file',
         'text',
     ];
-
     public const NAME = 'append';
 
     /**

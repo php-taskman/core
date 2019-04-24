@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace PhpTaskman\Core\Plugin\Task;
 
+use PhpTaskman\Core\Plugin\BaseTask;
 use PhpTaskman\Core\Robo\Task\FileEdition\LoadFileEditionTasks;
 use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Common\BuilderAwareTrait;
@@ -18,7 +19,6 @@ final class PrependTask extends BaseTask
         'file',
         'text',
     ];
-
     public const NAME = 'prepend';
 
     /**

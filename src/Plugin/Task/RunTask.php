@@ -5,8 +5,6 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Plugin\Task;
 
 use PhpTaskman\Core\Plugin\BaseTask;
-use PhpTaskman\Core\Robo\Task\FileEdition\LoadFileEditionTasks;
-use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Robo;
 use Robo\Task\Base\loadTasks;
@@ -14,8 +12,6 @@ use Robo\Task\Base\loadTasks;
 final class RunTask extends BaseTask
 {
     use BuilderAwareTrait;
-    use LoadFileEditionTasks;
-    use LoadProcessConfigFileTasks;
     use loadTasks;
 
     public const ARGUMENTS = [];

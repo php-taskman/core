@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Plugin\Task;
 
 use PhpTaskman\Core\Plugin\BaseTask;
-use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Task\File\loadTasks;
 
@@ -13,7 +12,6 @@ final class WriteTask extends BaseTask
 {
     use BuilderAwareTrait;
     use BuilderAwareTrait;
-    use LoadProcessConfigFileTasks;
     use loadTasks;
 
     public const ARGUMENTS = [
@@ -29,9 +27,16 @@ final class WriteTask extends BaseTask
     {
         $arguments = $this->getTask();
 
+        /** @var \PhpTaskman\Core\Plugin\Task\ProcessTask $processTask */
+        $processTask = $this->task(ProcessTask::class);
+        $processTask->setTask([
+            'from' => $arguments['file'],
+            'to' => $arguments['file'],
+        ]);
+
         return $this->collectionBuilder()->addTaskList([
             $this->taskWriteToFile($arguments['file'])->text($arguments['text']),
-            $this->taskProcessConfigFile($arguments['file'], $arguments['file']),
+            $processTask,
         ])->run();
     }
 }

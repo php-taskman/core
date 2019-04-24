@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Plugin\Task;
 
 use PhpTaskman\Core\Plugin\BaseTask;
-use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Task\File\loadTasks;
 
@@ -13,7 +12,6 @@ final class ConcatTask extends BaseTask
 {
     use BuilderAwareTrait;
     use BuilderAwareTrait;
-    use LoadProcessConfigFileTasks;
     use loadTasks;
 
     public const ARGUMENTS = [
@@ -27,13 +25,20 @@ final class ConcatTask extends BaseTask
      */
     public function run()
     {
-        $arguments = $this->getTask();
+        $arguments = $this->getTaskArguments();
+
+        /** @var \PhpTaskman\Core\Plugin\Task\ProcessTask $processTask */
+        $processTask = $this->task(ProcessTask::class);
+        $processTask->setTask([
+            'from' => $arguments['to'],
+            'to' => $arguments['to'],
+        ]);
 
         return $this
             ->collectionBuilder()
             ->addTaskList([
                 $this->taskConcat($arguments['files'])->to($arguments['to']),
-                $this->taskProcessConfigFile($arguments['to'], $arguments['to']),
+                $processTask,
             ])
             ->run();
     }

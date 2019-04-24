@@ -11,6 +11,9 @@ abstract class FilesystemTask extends BaseTask
 {
     use LoadFilesystemTasks;
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $task = static::NAME;

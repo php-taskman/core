@@ -11,10 +11,13 @@ use Robo\TaskAccessor;
 abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, BuilderAwareInterface
 {
     use TaskAccessor;
-    public const ARGUMENTS = [];
 
+    public const ARGUMENTS = [];
     public const NAME = 'NULL';
 
+    /**
+     * @var array
+     */
     private $options;
 
     /**
@@ -22,16 +25,25 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
      */
     private $task;
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;
     }
 
+    /**
+     * @return array
+     */
     public function getTask()
     {
         return $this->task;
     }
 
+    /**
+     * @return array
+     */
     public function getTaskArguments()
     {
         $task = $this->getTask();
@@ -57,11 +69,17 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
         return $task;
     }
 
+    /**
+     * @param array $options
+     */
     public function setOptions(array $options = [])
     {
         $this->options = $options;
     }
 
+    /**
+     * @param array $task
+     */
     public function setTask(array $task = [])
     {
         $this->task = $task;

@@ -4,11 +4,7 @@ declare(strict_types = 1);
 
 namespace PhpTaskman\Core\Robo\Task\CollectionFactory;
 
-use PhpTaskman\Core\Contract\ConfigurationTokensAwareInterface;
-use PhpTaskman\Core\Robo\Task\FileEdition\LoadFileEditionTasks;
 use PhpTaskman\Core\Robo\Task\Filesystem\LoadFilesystemTasks;
-use PhpTaskman\Core\Robo\Task\ProcessConfigFile\LoadProcessConfigFileTasks;
-use PhpTaskman\Core\Traits\ConfigurationTokensTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\SimulatedInterface;
 use Robo\Exception\TaskException;
@@ -24,14 +20,10 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class CollectionFactory extends BaseTask implements
     BuilderAwareInterface,
-    SimulatedInterface,
-    ConfigurationTokensAwareInterface
+    SimulatedInterface
 {
-    use ConfigurationTokensTrait;
     use LoadAllTasks;
-    use LoadFileEditionTasks;
     use LoadFilesystemTasks;
-    use LoadProcessConfigFileTasks;
 
     /**
      * @var array

@@ -99,6 +99,8 @@ final class Runner
     /**
      * @param mixed $args
      *
+     * @throws \ReflectionException
+     *
      * @return int
      */
     public function run($args)

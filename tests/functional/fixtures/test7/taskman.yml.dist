@@ -1,0 +1,3 @@
+commands:
+    testJ:
+        - { task: "boo", msg: "boo boo boo" }

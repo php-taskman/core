@@ -1,0 +1,20 @@
+{
+    "name": "phptaskman/test",
+    "require": {
+        "phptaskman/core": "*@dev",
+        "socialengine/composer-symlinker": "~1.0"
+    },
+    "extra": {
+        "local-packages": {
+            "phptaskman/core": "../../../../"
+        }
+    },
+    "config": {
+        "vendor-dir": "../../../_output/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpTaskman\\Test\\": "src"
+        }
+    }
+}

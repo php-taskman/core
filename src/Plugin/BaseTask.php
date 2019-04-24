@@ -5,11 +5,13 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Plugin;
 
 use PhpTaskman\Core\Contract\TaskInterface;
+use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\TaskAccessor;
 
 abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, BuilderAwareInterface
 {
+    use BuilderAwareTrait;
     use TaskAccessor;
 
     public const ARGUMENTS = [];
@@ -21,7 +23,7 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
     private $arguments;
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getTaskArguments()
     {
@@ -50,9 +52,7 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
     }
 
     /**
-     * @param array $arguments
-     *
-     * @return \PhpTaskman\Core\Plugin\BaseTask
+     * {@inheritdoc}
      */
     public function setTaskArguments(array $arguments = [])
     {

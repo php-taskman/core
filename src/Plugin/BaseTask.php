@@ -51,9 +51,13 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
 
     /**
      * @param array $arguments
+     *
+     * @return \PhpTaskman\Core\Plugin\BaseTask
      */
     public function setTaskArguments(array $arguments = [])
     {
         $this->arguments = $arguments;
+
+        return $this;
     }
 }

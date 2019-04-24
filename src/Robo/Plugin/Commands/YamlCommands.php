@@ -118,6 +118,9 @@ final class YamlCommands extends AbstractCommands
             'options' => $inputOptions,
         ];
 
-        return $this->task(CollectionFactory::class)->setTask($arguments);
+        /** @var CollectionFactory $collectionFactory */
+        $collectionFactory = $this->task(CollectionFactory::class);
+
+        return $collectionFactory->setTaskArguments($arguments);
     }
 }

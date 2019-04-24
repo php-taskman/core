@@ -22,7 +22,7 @@ final class RunTask extends BaseTask
      */
     public function run()
     {
-        $arguments = $this->getTask();
+        $arguments = $this->getTaskArguments();
 
         $taskExec = $this->taskExec(
             $this->getConfig()->get('taskman.bin_dir') . '/taskman'
@@ -38,7 +38,7 @@ final class RunTask extends BaseTask
         $commandOptions = $command->getDefinition()->getOptions();
 
         // Propagate any input option passed to the child command.
-        foreach ($this->getOptions() as $name => $values) {
+        foreach ($arguments['options'] as $name => $values) {
             if (!isset($commandOptions[$name])) {
                 continue;
             }

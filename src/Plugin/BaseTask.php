@@ -18,70 +18,42 @@ abstract class BaseTask extends \Robo\Task\BaseTask implements TaskInterface, Bu
     /**
      * @var array
      */
-    private $options;
-
-    /**
-     * @var array
-     */
-    private $task;
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTask()
-    {
-        return $this->task;
-    }
+    private $arguments;
 
     /**
      * @return array
      */
     public function getTaskArguments()
     {
-        $task = $this->getTask();
-        unset($task['task']);
+        $arguments = $this->arguments;
 
-        $arguments = \array_combine(
+        unset($arguments['task']);
+
+        $argumentsAllowed = \array_combine(
             static::ARGUMENTS,
             static::ARGUMENTS
         );
 
-        if (empty($arguments)) {
-            return $task;
+        if (empty($argumentsAllowed)) {
+            return $arguments;
         }
 
-        foreach ($task as $key => $value) {
-            if (isset($arguments[$key])) {
+        foreach ($arguments as $key => $value) {
+            if (isset($argumentsAllowed[$key])) {
                 continue;
             }
 
-            unset($task[$key]);
+            unset($arguments[$key]);
         }
 
-        return $task;
+        return $arguments;
     }
 
     /**
-     * @param array $options
+     * @param array $arguments
      */
-    public function setOptions(array $options = [])
+    public function setTaskArguments(array $arguments = [])
     {
-        $this->options = $options;
-    }
-
-    /**
-     * @param array $task
-     */
-    public function setTask(array $task = [])
-    {
-        $this->task = $task;
+        $this->arguments = $arguments;
     }
 }

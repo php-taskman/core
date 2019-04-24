@@ -25,11 +25,16 @@ final class CollectionFactory extends BaseTask implements
     use LoadAllTasks;
     use LoadFilesystemTasks;
 
-    public const NAME = 'collectionFactory';
     public const ARGUMENTS = [
         'tasks',
         'options',
     ];
+    public const NAME = 'collectionFactory';
+
+    /**
+     * @var array
+     */
+    private $tasks;
 
     /**
      * @return string
@@ -119,8 +124,6 @@ final class CollectionFactory extends BaseTask implements
      */
     protected function taskFactory(array $task)
     {
-        $arguments = $this->getTaskArguments();
-
         $this->secureOption($task, 'force', false);
         $this->secureOption($task, 'umask', 0000);
         $this->secureOption($task, 'recursive', false);
@@ -128,14 +131,15 @@ final class CollectionFactory extends BaseTask implements
         $this->secureOption($task, 'atime', \time());
         $this->secureOption($task, 'mode', 0777);
 
+        $arguments = \array_merge($this->getTaskArguments(), $task);
+
         if (!Robo::getContainer()->has('task.' . $task['task'])) {
             throw new TaskException($this, 'Unkown task: ' . $task['task']);
         }
 
         /** @var \PhpTaskman\Core\Contract\TaskInterface $taskFactory */
         $taskFactory = Robo::getContainer()->get('task.' . $task['task']);
-        $taskFactory->setTask($task);
-        $taskFactory->setOptions($arguments['options']);
+        $taskFactory->setTaskArguments($arguments);
 
         return $this
             ->collectionBuilder()

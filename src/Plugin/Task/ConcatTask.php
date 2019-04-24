@@ -29,7 +29,7 @@ final class ConcatTask extends BaseTask
 
         /** @var \PhpTaskman\Core\Plugin\Task\ProcessTask $processTask */
         $processTask = $this->task(ProcessTask::class);
-        $processTask->setTask([
+        $processTask->setTaskArguments([
             'from' => $arguments['to'],
             'to' => $arguments['to'],
         ]);

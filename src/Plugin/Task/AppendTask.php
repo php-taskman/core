@@ -26,7 +26,7 @@ final class AppendTask extends BaseTask
 
         /** @var \PhpTaskman\Core\Plugin\Task\ProcessTask $processTask */
         $processTask = $this->task(ProcessTask::class);
-        $processTask->setTask([
+        $processTask->setTaskArguments([
             'from' => $arguments['file'],
             'to' => $arguments['file'],
         ]);

@@ -46,9 +46,11 @@ final class Taskman
 
         $config->set('taskman.working_dir', $workingDir);
 
+        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir);
+
         // Load the configuration.
         Robo::loadConfiguration(
-            \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir),
+            $paths,
             $config
         );
 

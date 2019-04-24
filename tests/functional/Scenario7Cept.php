@@ -10,6 +10,11 @@ $I->runShellCommand('composer install -n --no-progress --no-scripts --no-dev --n
 
 $I->runShellCommand('../../../_output/vendor/bin/taskman --no-ansi');
 $I->canSeeInShellOutput('testJ');
+$I->canSeeInShellOutput('testK');
 
 $I->runShellCommand('../../../_output/vendor/bin/taskman testJ');
 $I->canSeeInShellOutput('boo boo boo');
+
+$I->runShellCommand('../../../_output/vendor/bin/taskman testK');
+$I->canSeeInShellOutput('boo boo boo');
+$I->canSeeInShellOutput('baz baz baz');

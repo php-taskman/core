@@ -6,6 +6,7 @@ namespace PhpTaskman\Core\Plugin\Task;
 
 use PhpTaskman\Core\Plugin\BaseTask;
 use Robo\Common\BuilderAwareTrait;
+use Robo\Exception\TaskException;
 use Robo\Robo;
 use Robo\Task\Base\loadTasks;
 
@@ -24,9 +25,13 @@ final class RunTask extends BaseTask
     {
         $arguments = $this->getTaskArguments();
 
-        $taskExec = $this->taskExec(
-            $this->getConfig()->get('taskman.bin_dir') . '/taskman'
-        )->arg($arguments['command']);
+        $bin = \realpath(__DIR__ . '/../../../' . $this->getConfig()->get('taskman.bin_dir') . '/taskman');
+
+        if (false === $bin) {
+            throw new TaskException(__CLASS__, 'Unable to find the taskman binary');
+        }
+
+        $taskExec = $this->taskExec($bin)->arg($arguments['command']);
 
         $container = Robo::getContainer();
 

@@ -133,15 +133,13 @@ final class CollectionFactory extends BaseTask implements
     }
 
     /**
-     * @param array|string $task
+     * @param array $task
      *
      * @throws \Robo\Exception\TaskException
      *
      * @return \Robo\Contract\TaskInterface
-     *
-     * @SuppressWarnings(PHPMD)
      */
-    protected function taskFactory($task)
+    protected function taskFactory(array $task)
     {
         $this->secureOption($task, 'force', false);
         $this->secureOption($task, 'umask', 0000);
@@ -150,174 +148,17 @@ final class CollectionFactory extends BaseTask implements
         $this->secureOption($task, 'atime', \time());
         $this->secureOption($task, 'mode', 0777);
 
-        $taskMap = [
-            'mkdir' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'mkdir',
-                'parameters' => [
-                    'dir',
-                    'mode',
-                ],
-            ],
-            'touch' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'touch',
-                'parameters' => [
-                    'file',
-                    'time',
-                    'atime',
-                ],
-            ],
-            'copy' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'copy',
-                'parameters' => [
-                    'from',
-                    'to',
-                    'force',
-                ],
-            ],
-            'chmod' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'chmod',
-                'parameters' => [
-                    'file',
-                    'permissions',
-                    'umask',
-                    'recursive',
-                ],
-            ],
-            'chgrp' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'chgrp',
-                'parameters' => [
-                    'file',
-                    'group',
-                    'recursive',
-                ],
-            ],
-            'chown' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'chown',
-                'parameters' => [
-                    'file',
-                    'user',
-                    'recursive',
-                ],
-            ],
-            'remove' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'remove',
-                'parameters' => [
-                    'file',
-                ],
-            ],
-            'rename' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'rename',
-                'parameters' => [
-                    'from',
-                    'to',
-                    'force',
-                ],
-            ],
-            'symlink' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'symlink',
-                'parameters' => [
-                    'from',
-                    'to',
-                    'copyOnWindows',
-                ],
-            ],
-            'mirror' => [
-                'factory' => 'taskFilesystemFactory',
-                'command' => 'mirror',
-                'parameters' => [
-                    'from',
-                    'to',
-                ],
-            ],
-        ];
-
-        if (isset($taskMap[$task['task']])) {
-            $parameters = [];
-
-            foreach ($taskMap[$task['task']]['parameters'] as $key) {
-                if (isset($task[$key])) {
-                    $parameters[$key] = $task[$key];
-                }
-            }
-
-            return $this->{$taskMap[$task['task']]['factory']}($task['task'], $parameters);
+        if (!Robo::getContainer()->has('task.' . $task['task'])) {
+            throw new TaskException($this, 'Unkown task: ' . $task['task']);
         }
 
-        switch ($task['task']) {
-            case 'append':
-                $file = $task['file'];
+        $taskFactory = Robo::getContainer()->get('task.' . $task['task']);
+        $taskFactory->setTask($task);
 
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskWriteToFile($file)->append()->text($task['text']),
-                    $this->taskProcessConfigFile($file, $file),
-                ]);
-
-            case 'concat':
-                $to = $task['to'];
-
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskConcat($task['files'])->to($to),
-                    $this->taskProcessConfigFile($to, $to),
-                ]);
-
-            case 'prepend':
-                $file = $task['file'];
-
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskWritePrependToFile($file)->prepend()->text($task['text']),
-                    $this->taskProcessConfigFile($file, $file),
-                ]);
-
-            case 'process':
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskProcessConfigFile($task['source'], $task['destination']),
-                ]);
-
-            case 'run':
-                $taskExec = $this->taskExec(
-                    $this->getConfig()->get('taskman.bin_dir') . '/taskman'
-                )->arg($task['command']);
-
-                $container = Robo::getContainer();
-
-                /** @var \Robo\Application $app */
-                $app = $container->get('application');
-
-                /** @var \Consolidation\AnnotatedCommand\AnnotatedCommand $command */
-                $command = $app->get($task['command']);
-                $commandOptions = $command->getDefinition()->getOptions();
-
-                // Propagate any input option passed to the child command.
-                foreach ($this->options as $name => $values) {
-                    if (!isset($commandOptions[$name])) {
-                        continue;
-                    }
-
-                    // But only if the called command has this option.
-                    foreach ((array) $values as $value) {
-                        $taskExec->option($name, $value);
-                    }
-                }
-
-                return $taskExec;
-
-            case 'write':
-                return $this->collectionBuilder()->addTaskList([
-                    $this->taskWriteToFile($task['file'])->text($task['text']),
-                    $this->taskProcessConfigFile($task['file'], $task['file']),
-                ]);
-
-            default:
-                throw new TaskException($this, "Task '{$task['task']}' not supported.");
-        }
+        return $this
+            ->collectionBuilder()
+            ->addTaskList([
+                $taskFactory,
+            ]);
     }
 }

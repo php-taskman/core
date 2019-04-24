@@ -142,6 +142,21 @@ final class Taskman
     }
 
     /**
+     * @param string $relativeNamespace
+     *
+     * @return array|string[]
+     */
+    public static function discoverTasksClasses($relativeNamespace)
+    {
+        /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+        $discovery = Robo::service('relativeNamespaceDiscovery');
+        $discovery->setRelativeNamespace($relativeNamespace . '\Task')
+            ->setSearchPattern('*Task.php');
+
+        return $discovery->getClasses();
+    }
+
+    /**
      * @param string[] $paths
      *   Array of JSON filepaths.
      * @param null|Config $config

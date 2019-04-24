@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">= 7",
+        "php": ">= 7.1",
         "ext-json": "*",
         "consolidation/robo": "^1.4.9"
     },

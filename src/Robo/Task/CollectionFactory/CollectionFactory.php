@@ -152,8 +152,10 @@ final class CollectionFactory extends BaseTask implements
             throw new TaskException($this, 'Unkown task: ' . $task['task']);
         }
 
+        /** @var \PhpTaskman\Core\Contract\TaskInterface $taskFactory */
         $taskFactory = Robo::getContainer()->get('task.' . $task['task']);
         $taskFactory->setTask($task);
+        $taskFactory->setOptions($this->options);
 
         return $this
             ->collectionBuilder()

@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use PhpTaskman\Core\Robo\Task\CollectionFactory\LoadCollectionFactoryTasks;
+use PhpTaskman\Core\Plugin\Task\CollectionFactory;
 use Robo\Collection\CollectionBuilder;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -15,8 +15,6 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  */
 final class YamlCommands extends AbstractCommands
 {
-    use LoadCollectionFactoryTasks;
-
     /**
      * Bind input values of custom command options to config entries.
      *
@@ -108,8 +106,6 @@ final class YamlCommands extends AbstractCommands
             throw new TaskException($this, 'The command must be a string.');
         }
 
-        $tasks = $this->getConfig()->get('commands.' . $command);
-
         $inputOptions = [];
         foreach ($this->input()->getOptions() as $name => $value) {
             if ($this->input()->hasParameterOption('--' . $name)) {
@@ -117,6 +113,11 @@ final class YamlCommands extends AbstractCommands
             }
         }
 
-        return $this->taskCollectionFactory($tasks, $inputOptions);
+        $arguments = [
+            'tasks' => $this->getConfig()->get('commands.' . $command),
+            'options' => $inputOptions,
+        ];
+
+        return $this->task(CollectionFactory::class)->setTask($arguments);
     }
 }

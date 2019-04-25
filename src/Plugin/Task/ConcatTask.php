@@ -11,7 +11,6 @@ use Robo\Task\File\loadTasks;
 final class ConcatTask extends BaseTask
 {
     use BuilderAwareTrait;
-    use BuilderAwareTrait;
     use loadTasks;
 
     public const ARGUMENTS = [

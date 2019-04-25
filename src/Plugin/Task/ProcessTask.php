@@ -18,7 +18,6 @@ use Robo\Task\Filesystem\FilesystemStack;
 final class ProcessTask extends BaseTask implements BuilderAwareInterface, ConfigurationTokensAwareInterface
 {
     use BuilderAwareTrait;
-    use BuilderAwareTrait;
     use ConfigurationTokensTrait;
     use loadTasks;
     use ResourceExistenceChecker;

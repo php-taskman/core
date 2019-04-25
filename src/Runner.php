@@ -7,6 +7,7 @@ namespace PhpTaskman\Core;
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use League\Container\Inflector\Inflector;
+use PhpTaskman\Core\Plugin\Task\YamlTask;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
 use Robo\Application;
@@ -279,11 +280,22 @@ final class Runner
             $inflector->invokeMethod('setBuilder', [$builder]);
         }
 
+        // Register custom Task classes.
         foreach ($tasks as $taskReflectionClass) {
             $this->container->add(
                 'task.' . $taskReflectionClass->getConstant('NAME'),
                 $taskReflectionClass->getName()
             );
+        }
+
+        // Register custom YAML tasks.
+        $customTasks = $this->getConfig()->get('tasks', []);
+
+        foreach ($customTasks as $name => $tasks) {
+            $this->container->add(
+                'task.' . $name,
+                YamlTask::class
+            )->withArgument($tasks);
         }
     }
 }

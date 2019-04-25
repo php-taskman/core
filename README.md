@@ -10,9 +10,12 @@
 
 ## Description
 
-This library is a helper for running pre-defined customizable commands and tasks.
+Taskman is a helper for running commands and tasks. It is shipped with a few simple default tasks.
 
-It is shipped with a few simple commands and tasks, just the bare minimum.
+It will help you in your every day life of to setup recurrent tasks that you have to run in your project in order to
+set it up or install it.
+
+Taskman is based on [Robo](https://robo.li/) and not tied to any framework or whatsoever.
 
 ## Requirements
 
@@ -85,31 +88,51 @@ Then run a command:
 
 The documentation is not up to date, this is a work in progress.
 
-### Expose custom commands in YAML
+Taskman will run commands. Commands contains one or multiple tasks.
 
-Taskman allows you to expose new commands using a yaml file (_taskman.yml.dist or taskman.yml_):
+A task can be defined using YAML or through code, same goes for commands.
 
-Example:
+An example of custom command with some tasks in a `taskman.yml.dist` file:
 
 ```yaml
 commands:
-  myproject:site-setup:
-    - { task: "chmod", file: "${site.root}/sites", permissions: 0774, recursive: true }
-    - { task: "symlink", from: "../../custom/modules", to: "${site.root}/modules/custom" }
-    - { task: "symlink", from: "../../custom/themes", to: "${site.root}/themes/custom" }
-    - { task: "run", command: "site:setup" }
-    - { task: "run", command: "site:settings-setup" }
-    - { task: "run", command: "setup:behat" }
-    - "ls -la"
-  setup:behat:
-    - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
-  setup:phpunit:
-    - { task: "process", source: "phpunit.yml.dist", destination: "phpunit.yml" }
+  foo:foo:
+    - ls -la
+    - { task: "mkdir", dir: "foo" }
+    - ls -la
+    - { task: "run", command: "foo:remove" }
+  foo:remove:
+    - rm -rf foo
+    - ls -la
 ```
 
-Commands can reference each-other, allowing for complex scenarios to be implemented with relative ease.
+As you can see, there are 2 custom commands that are defined: `foo:foo` and `foo:remove`.
 
-At the moment the following tasks are supported:
+Those commands contains tasks, 4 tasks for `foo:foo` and 2 tasks for `foo:remove`.
+
+A task can be either a string or an well structured array.
+
+### Expose custom tasks in YAML
+
+Let's use the same example and add a custom task in the YAML file.
+
+```yaml
+tasks:
+  baz:
+    - ls -la
+
+commands:
+  foo:foo:
+    - ls -la
+    - { task: "mkdir", dir: "foo" }
+    - ls -la
+    - { task: "run", command: "foo:remove" }
+  foo:remove:
+    - rm -rf foo
+    - { task: "baz" }
+```
+
+There are a few tasks that are supported by default in Taskman:
 
 | Task          | Arguments |
 | ------------- | --------- |
@@ -130,9 +153,10 @@ At the moment the following tasks are supported:
 | `concat`      | `files`, `to` |
 | `run`         | `command` (will run `./vendor/bin/taskman [command]`) |
 
-Tasks provided as plain-text strings will be executed as is in the current working directory.
+### Expose custom commands in YAML
 
-### Custom commands
+Taskman allows you to expose new commands using a yaml file (_taskman.yml.dist or taskman.yml_).
+Commands can reference each-other, allowing for complex scenarios to be implemented with relative ease.
 
 * Create a file `taskman.yml` or `taskman.yml.dist` in your project, and start adding commands:
 

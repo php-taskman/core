@@ -113,10 +113,20 @@ final class YamlCommands extends AbstractCommands
             }
         }
 
-        $arguments = [
-            'tasks' => $this->getConfig()->get('commands.' . $command),
-            'options' => $inputOptions,
-        ];
+        $command = $this->getConfig()->get('commands.' . $command);
+
+        // Handle different types of command definitions.
+        if (isset($command['tasks'])) {
+            $arguments = [
+                'tasks' => $command['tasks'],
+                'options' => $inputOptions,
+            ];
+        } else {
+            $arguments = [
+                'tasks' => $command,
+                'options' => [],
+            ];
+        }
 
         /** @var CollectionFactory $collectionFactory */
         $collectionFactory = $this->task(CollectionFactory::class);

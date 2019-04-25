@@ -1,11 +1,12 @@
 [![Latest Stable Version](https://poser.pugx.org/phptaskman/core/v/stable)](https://packagist.org/packages/phptaskman/core)
  [![Total Downloads](https://poser.pugx.org/phptaskman/core/downloads)](https://packagist.org/packages/phptaskman/core)
- [![Build Status](https://travis-ci.org/php-taskman/core.svg?branch=master)](https://travis-ci.org/php-taskman/core)
+ [![Build Status](https://img.shields.io/travis/php-taskman/core/master.svg?style=flat-square)](https://travis-ci.org/php-taskman/core)
  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-taskman/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
  [![Code Coverage](https://scrutinizer-ci.com/g/php-taskman/core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
  [![License](https://poser.pugx.org/phptaskman/core/license)](https://packagist.org/packages/phptaskman/core)
  [![composer.lock](https://poser.pugx.org/phptaskman/core/composerlock)](https://packagist.org/packages/phptaskman/core)
-
+ [![Stars](https://img.shields.io/github/stars/php-taskman/core.svg?style=flat-square)](https://github.com/php-taskman/core)
+ 
 # PHP Taskman
 
 ## Description
@@ -65,6 +66,9 @@ Provides commands for your Drupal environment.
 
 * [phptaskman/package](https://github.com/php-taskman/package)
 Provide commands for generating packages out of your sources.
+
+* [phptaskman/travis](https://github.com/php-taskman/travis)
+Provide commands to execute parts of your `.travis.yml` file.
 
 ## Usage
 

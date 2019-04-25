@@ -74,8 +74,7 @@ final class Runner
         $this->output = $output ?? new ConsoleOutput();
         $this->classLoader = $classLoader ?? new ClassLoader();
 
-        $this->workingDir = $this->getWorkingDir($this->input);
-        \chdir($this->workingDir);
+        \chdir($this->input->getParameterOption('--working-dir', \getcwd()));
 
         $this->config = Taskman::createConfiguration(
             [],
@@ -162,44 +161,19 @@ final class Runner
     }
 
     /**
-     * @param string $command
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return array
-     */
-    private function getTasks($command)
-    {
-        $commands = $this->getConfig()->get('commands', []);
-
-        if (!isset($commands[$command])) {
-            throw new \InvalidArgumentException("Custom command '${command}' not defined.");
-        }
-
-        return !empty($commands[$command]['tasks']) ? $commands[$command]['tasks'] : $commands[$command];
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return mixed
-     */
-    private function getWorkingDir(InputInterface $input)
-    {
-        return $input->getParameterOption('--working-dir', \getcwd());
-    }
-
-    /**
      * @param \Robo\Application $application
      */
     private function registerDynamicCommands(Application $application)
     {
-        $customCommands = $this->getConfig()->get('commands', []);
-        foreach ($customCommands as $name => $commandDefinition) {
+        $commandDefinitions = $this->getConfig()->get('commands', []);
+
+        foreach ($commandDefinitions as $name => $commandDefinition) {
+            /** @var \PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands $commandClass */
+            $commandClass = $this->container->get(YamlCommands::class . 'Commands');
+
             /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $commandFactory */
-            $commandFileName = YamlCommands::class . 'Commands';
-            $commandClass = $this->container->get($commandFileName);
             $commandFactory = $this->container->get('commandFactory');
+
             $commandInfo = $commandFactory->createCommandInfo($commandClass, 'runTasks');
 
             $commandDefinition += ['options' => []];
@@ -228,8 +202,10 @@ final class Runner
             // Dynamic commands may define their own options.
             $this->addOptions($command, $commandDefinition);
 
+            $tasks = $commandDefinition['tasks'] ?? $commandDefinition;
+
             // Append also options of subsequent tasks.
-            foreach ($this->getTasks($name) as $taskEntry) {
+            foreach ($tasks as $taskEntry) {
                 if (!\is_array($taskEntry)) {
                     continue;
                 }

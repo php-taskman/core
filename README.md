@@ -1,11 +1,10 @@
-[![Latest Stable Version](https://poser.pugx.org/phptaskman/core/v/stable)](https://packagist.org/packages/phptaskman/core)
- [![Total Downloads](https://poser.pugx.org/phptaskman/core/downloads)](https://packagist.org/packages/phptaskman/core)
- [![Build Status](https://img.shields.io/travis/php-taskman/core/master.svg?style=flat-square)](https://travis-ci.org/php-taskman/core)
- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-taskman/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![Code Coverage](https://scrutinizer-ci.com/g/php-taskman/core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![License](https://poser.pugx.org/phptaskman/core/license)](https://packagist.org/packages/phptaskman/core)
- [![composer.lock](https://poser.pugx.org/phptaskman/core/composerlock)](https://packagist.org/packages/phptaskman/core)
+[![Latest Stable Version](https://img.shields.io/github/release/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
  [![Stars](https://img.shields.io/github/stars/php-taskman/core.svg?style=flat-square)](https://github.com/php-taskman/core)
+ [![Total Downloads](https://img.shields.io/packagist/dt/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+ [![Build Status](https://img.shields.io/travis/php-taskman/core/master.svg?style=flat-square)](https://travis-ci.org/php-taskman/core)
+ [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/php-taskman/core.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/php-taskman/core.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![License](https://img.shields.io/github/license/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
  
 # PHP Taskman
 

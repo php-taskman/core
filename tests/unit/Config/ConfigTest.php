@@ -39,6 +39,9 @@ final class ConfigTest extends Unit
             $expected
         );
 
-        $this->tester->assertArraySubset(\array_combine($expected, $expected), $files);
+        foreach (\array_combine($expected, $expected) as $key => $value) {
+            $this::assertArrayHasKey($key, $files);
+            $this::assertSame($value, $files[$key]);
+        }
     }
 }

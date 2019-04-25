@@ -1,5 +1,5 @@
 taskman:
-    bin_dir: ./bin/
+    bin_dir: ../../../../tests/_output/vendor/bin
 
 tasks:
     baz:

@@ -182,6 +182,8 @@ You can define also command options along with a custom command.
 ```yaml
 commands:
   setup:behat:
+    description: Write a short description of your task here.
+    help: Write a short help text here.
     # When you need to define command options, the list of tasks should be
     # placed under the 'tasks' key...
     tasks:

@@ -216,6 +216,15 @@ final class Runner
 
             $command = $commandFactory->createCommand($commandInfo, $commandClass)->setName($name);
 
+            // Override default description.
+            if (isset($commandDefinition['description'])) {
+                $command->setDescription($commandDefinition['description']);
+            }
+            // Override default help.
+            if (isset($commandDefinition['help'])) {
+                $command->setHelp($commandDefinition['help']);
+            }
+
             // Dynamic commands may define their own options.
             $this->addOptions($command, $commandDefinition);
 

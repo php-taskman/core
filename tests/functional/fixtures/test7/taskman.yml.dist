@@ -1,0 +1,8 @@
+taskman:
+    bin_dir: ./bin/
+commands:
+    testJ:
+        - { task: "boo", msg: "boo boo boo" }
+    testK:
+        - { task: "boo", msg: "baz baz baz" }
+        - { task: "run", command: "testJ" }

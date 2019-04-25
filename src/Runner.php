@@ -6,10 +6,13 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
+use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
 use Robo\Application;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,6 +99,8 @@ final class Runner
     /**
      * @param mixed $args
      *
+     * @throws \ReflectionException
+     *
      * @return int
      */
     public function run($args)
@@ -105,6 +110,9 @@ final class Runner
 
         // Register commands defined in task.yml file.
         $this->registerDynamicCommands($this->application);
+
+        // Register tasks
+        $this->registerDynamicTasks($this->application);
 
         // Run command.
         return $this->runner->run($this->input, $this->output, $this->application);
@@ -242,6 +250,40 @@ final class Runner
             }
 
             $application->add($command);
+        }
+    }
+
+    /**
+     * @param \Robo\Application $application
+     *
+     * @throws \ReflectionException
+     */
+    private function registerDynamicTasks(Application $application)
+    {
+        $classes = Taskman::discoverTasksClasses('Plugin');
+
+        /** @var \ReflectionClass[] $tasks */
+        $tasks = [];
+        foreach ($classes as $className) {
+            $class = new \ReflectionClass($className);
+            if (!$class->isInstantiable()) {
+                continue;
+            }
+            $tasks[] = $class;
+        }
+
+        $builder = CollectionBuilder::create($this->container, '');
+
+        $inflector = $this->container->inflector(BuilderAwareInterface::class);
+        if ($inflector instanceof Inflector) {
+            $inflector->invokeMethod('setBuilder', [$builder]);
+        }
+
+        foreach ($tasks as $taskReflectionClass) {
+            $this->container->add(
+                'task.' . $taskReflectionClass->getConstant('NAME'),
+                $taskReflectionClass->getName()
+            );
         }
     }
 }

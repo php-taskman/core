@@ -39,8 +39,8 @@ final class Config
 
         // Load default paths.
         $filesystemPaths = [
-            __DIR__ . '/../config/default.yml',
-            __DIR__ . '/../default.yml',
+            __DIR__ . '/../../config/default.yml',
+            __DIR__ . '/../../default.yml',
             static::getLocalConfigurationFilepath(),
         ];
 

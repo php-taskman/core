@@ -46,9 +46,11 @@ final class Taskman
 
         $config->set('taskman.working_dir', $workingDir);
 
+        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir);
+
         // Load the configuration.
         Robo::loadConfiguration(
-            \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir),
+            $paths,
             $config
         );
 
@@ -139,6 +141,21 @@ final class Taskman
         self::loadJsonConfiguration($paths, $config);
 
         return $config;
+    }
+
+    /**
+     * @param string $relativeNamespace
+     *
+     * @return array|string[]
+     */
+    public static function discoverTasksClasses($relativeNamespace)
+    {
+        /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+        $discovery = Robo::service('relativeNamespaceDiscovery');
+        $discovery->setRelativeNamespace($relativeNamespace . '\Task')
+            ->setSearchPattern('*Task.php');
+
+        return $discovery->getClasses();
     }
 
     /**

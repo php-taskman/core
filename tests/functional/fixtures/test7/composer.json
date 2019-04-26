@@ -2,11 +2,13 @@
     "name": "phptaskman/test",
     "require": {
         "phptaskman/core": "*@dev",
+        "phptaskman/core-tasks": "*@dev",
         "socialengine/composer-symlinker": "~1.0"
     },
     "extra": {
         "local-packages": {
-            "phptaskman/core": "../../../../"
+            "phptaskman/core": "../../../../",
+            "phptaskman/core-tasks": "../../../../vendor/phptaskman/core-tasks"
         }
     },
     "config": {

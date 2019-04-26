@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace PhpTaskman\Test\Plugin\Task;
 
-use PhpTaskman\Core\Plugin\BaseTask;
+use PhpTaskman\CoreTasks\Plugin\BaseTask;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Task\Base\Exec;

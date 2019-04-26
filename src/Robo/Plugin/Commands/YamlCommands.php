@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use PhpTaskman\Core\Plugin\Task\CollectionFactory;
+use PhpTaskman\CoreTasks\Plugin\Task\CollectionFactory;
 use Robo\Collection\CollectionBuilder;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;

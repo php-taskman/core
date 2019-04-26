@@ -12,6 +12,7 @@
     "require": {
         "php": ">= 7.1",
         "ext-json": "*",
+        "phptaskman/core-tasks": "dev-master",
         "consolidation/robo": "^1.4.9"
     },
     "require-dev": {

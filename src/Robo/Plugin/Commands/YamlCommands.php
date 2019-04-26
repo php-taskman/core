@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use PhpTaskman\CoreTasks\Plugin\Task\CollectionFactory;
+use PhpTaskman\CoreTasks\Plugin\Task\CollectionFactoryTask;
 use Robo\Collection\CollectionBuilder;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -128,8 +128,8 @@ final class YamlCommands extends AbstractCommands
             ];
         }
 
-        /** @var CollectionFactory $collectionFactory */
-        $collectionFactory = $this->task(CollectionFactory::class);
+        /** @var CollectionFactoryTask $collectionFactory */
+        $collectionFactory = $this->task(CollectionFactoryTask::class);
 
         return $collectionFactory->setTaskArguments($arguments);
     }

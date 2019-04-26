@@ -7,7 +7,7 @@ namespace PhpTaskman\Core;
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use League\Container\Inflector\Inflector;
-use PhpTaskman\Core\Plugin\Task\YamlTask;
+use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
 use Robo\Application;

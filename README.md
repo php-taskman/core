@@ -132,26 +132,7 @@ commands:
     - { task: "baz" }
 ```
 
-There are a few tasks that are supported by default in Taskman:
-
-| Task          | Arguments |
-| ------------- | --------- |
-| `mkdir`       | `dir`, `mode` (0777) |
-| `touch`       | `file`, `time` (current time), `atime` (current time) |
-| `copy`        | `from`, `to`, `force` (false) |
-| `chmod`       | `file`, `permissions`, `umask` (0000), `recursive` (false) |
-| `chgrp`       | `file`, `group`, `recursive` (false) |
-| `chown`       | `file`, `user`, `recursive` (false) |
-| `remove`      | `file` |
-| `rename`      | `from`, `to`, `force` (false) |
-| `symlink`     | `from`, `to`, `copyOnWindows` (false) |
-| `mirror`      | `from`, `to` |
-| `process`     | `from`, `to` |
-| `append`      | `file`, `text` |
-| `prepend`     | `file`, `text` |
-| `write`       | `file`, `text` |
-| `concat`      | `files`, `to` |
-| `run`         | `command` (will run `./vendor/bin/taskman [command]`) |
+There are a few tasks that are supported by default in Taskman and provided by [the package phptaskman/core-tasks](https://packagist.org/packages/phptaskman/core-tasks).
 
 ### Expose custom commands in YAML
 

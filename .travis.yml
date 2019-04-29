@@ -14,7 +14,7 @@ php:
 - 7.3
 
 install:
-- composer install --prefer-source
+- composer install
 
 script:
 - composer grumphp

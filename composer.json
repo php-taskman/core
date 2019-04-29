@@ -13,7 +13,7 @@
         "php": ">= 7.1",
         "ext-json": "*",
         "consolidation/robo": "^1.4.9",
-        "phptaskman/core-tasks": "dev-master#b2aa9b4"
+        "phptaskman/core-tasks": "^1"
     },
     "require-dev": {
         "codeception/codeception": "^3",
@@ -22,6 +22,7 @@
     "suggest": {
         "phptaskman/drupal": "Provides Drupal related commands.",
         "phptaskman/package": "Provides commands to create a package out of your sources."
+        "phptaskman/travis": "Provides commands to execute commands from a Travis file."
     },
     "config": {
         "sort-packages": true

@@ -17,11 +17,11 @@
     },
     "require-dev": {
         "codeception/codeception": "^3",
-        "drupol/php-conventions": "^1.3.2"
+        "drupol/php-conventions": "^1.3"
     },
     "suggest": {
         "phptaskman/drupal": "Provides Drupal related commands.",
-        "phptaskman/package": "Provides commands to create a package out of your sources."
+        "phptaskman/package": "Provides commands to create a package out of your sources.",
         "phptaskman/travis": "Provides commands to execute commands from a Travis file."
     },
     "config": {

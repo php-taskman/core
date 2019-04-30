@@ -7,6 +7,7 @@ use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
+use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
 use Robo\Application;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;

@@ -18,6 +18,7 @@ install:
 - composer install
 
 script:
+- composer grumphp
 - composer codecept-coverage
 
 after_success:

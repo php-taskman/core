@@ -1,27 +1,31 @@
 language: php
 
 git:
-  depth: 1
+    depth: 1
 
 cache:
-  directories:
-  - "$HOME/.cache/composer"
-  - "$HOME/.composer/cache"
+    directories:
+        - "$HOME/.cache/composer"
+        - "$HOME/.composer/cache"
 
 php:
-- 5.6
-- 7.1
-- 7.2
-- 7.3
+    - 5.6
+    - 7.1
+    - 7.2
+    - 7.3
 
 install:
-- composer install
+    - composer install
 
 script:
-- composer grumphp
-- composer codecept-coverage
+    - composer grumphp
+    - composer codecept-coverage
 
 after_success:
-- phpenv config-rm xdebug.ini
-- wget https://scrutinizer-ci.com/ocular.phar
-- php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+    - phpenv config-rm xdebug.ini
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+
+matrix:
+    allow_failures:
+        - php: 5.6

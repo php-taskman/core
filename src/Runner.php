@@ -68,9 +68,9 @@ final class Runner
         OutputInterface $output = null,
         ClassLoader $classLoader = null
     ) {
-        $this->input = $input === null ? new ArgvInput() : $input;
-        $this->output = $output === null ? new ConsoleOutput() : $output;
-        $this->classLoader = $classLoader === null ? new ClassLoader() : $classLoader;
+        $this->input = null === $input ? new ArgvInput() : $input;
+        $this->output = null === $output ? new ConsoleOutput() : $output;
+        $this->classLoader = null === $classLoader ? new ClassLoader() : $classLoader;
 
         \chdir($this->input->getParameterOption('--working-dir', \getcwd()));
 

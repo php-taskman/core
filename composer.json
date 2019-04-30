@@ -13,11 +13,10 @@
         "php": ">= 5.6",
         "ext-json": "*",
         "consolidation/robo": "^1.4.9",
-        "phptaskman/core-tasks": "^0.1"
+        "phptaskman/core-tasks": "^0.1.0"
     },
     "require-dev": {
-        "codeception/codeception": "^3",
-        "drupol/php-conventions": "^1.3"
+        "codeception/codeception": "^3"
     },
     "suggest": {
         "phptaskman/drupal": "Provides Drupal related commands.",
@@ -41,8 +40,6 @@
         "bin/taskman"
     ],
     "scripts": {
-        "codecept": "./vendor/bin/codecept run",
-        "codecept-coverage": "./vendor/bin/codecept run --coverage --coverage-xml --env travis",
-        "grumphp": "./vendor/bin/grumphp run"
+        "codecept": "./vendor/bin/codecept run"
     }
 }

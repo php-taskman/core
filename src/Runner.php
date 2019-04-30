@@ -4,10 +4,13 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
+use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
 use Robo\Application;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,8 +71,7 @@ final class Runner
         $this->output = $output === null ? new ConsoleOutput() : $output;
         $this->classLoader = $classLoader === null ? new ClassLoader() : $classLoader;
 
-        $this->workingDir = $this->getWorkingDir($this->input);
-        \chdir($this->workingDir);
+        \chdir($this->input->getParameterOption('--working-dir', \getcwd()));
 
         $this->config = Taskman::createConfiguration(
             [],
@@ -94,6 +96,8 @@ final class Runner
     /**
      * @param mixed $args
      *
+     * @throws \ReflectionException
+     *
      * @return int
      */
     public function run($args)
@@ -103,6 +107,9 @@ final class Runner
 
         // Register commands defined in task.yml file.
         $this->registerDynamicCommands($this->application);
+
+        // Register tasks
+        $this->registerDynamicTasks($this->application);
 
         // Run command.
         return $this->runner->run($this->input, $this->output, $this->application);
@@ -151,44 +158,19 @@ final class Runner
     }
 
     /**
-     * @param string $command
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return array
-     */
-    private function getTasks($command)
-    {
-        $commands = $this->getConfig()->get('commands', []);
-
-        if (!isset($commands[$command])) {
-            throw new \InvalidArgumentException("Custom command '${command}' not defined.");
-        }
-
-        return !empty($commands[$command]['tasks']) ? $commands[$command]['tasks'] : $commands[$command];
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return mixed
-     */
-    private function getWorkingDir(InputInterface $input)
-    {
-        return $input->getParameterOption('--working-dir', \getcwd());
-    }
-
-    /**
      * @param \Robo\Application $application
      */
     private function registerDynamicCommands(Application $application)
     {
-        $customCommands = $this->getConfig()->get('commands', []);
-        foreach ($customCommands as $name => $commandDefinition) {
+        $commandDefinitions = $this->getConfig()->get('commands', []);
+
+        foreach ($commandDefinitions as $name => $commandDefinition) {
+            /** @var \PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands $commandClass */
+            $commandClass = $this->container->get(YamlCommands::class . 'Commands');
+
             /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $commandFactory */
-            $commandFileName = YamlCommands::class . 'Commands';
-            $commandClass = $this->container->get($commandFileName);
             $commandFactory = $this->container->get('commandFactory');
+
             $commandInfo = $commandFactory->createCommandInfo($commandClass, 'runTasks');
 
             $commandDefinition += ['options' => []];
@@ -205,11 +187,22 @@ final class Runner
 
             $command = $commandFactory->createCommand($commandInfo, $commandClass)->setName($name);
 
+            // Override default description.
+            if (isset($commandDefinition['description'])) {
+                $command->setDescription($commandDefinition['description']);
+            }
+            // Override default help.
+            if (isset($commandDefinition['help'])) {
+                $command->setHelp($commandDefinition['help']);
+            }
+
             // Dynamic commands may define their own options.
             $this->addOptions($command, $commandDefinition);
 
+            $tasks = isset($commandDefinition['tasks']) ? $commandDefinition['tasks'] : $commandDefinition;
+
             // Append also options of subsequent tasks.
-            foreach ($this->getTasks($name) as $taskEntry) {
+            foreach ($tasks as $taskEntry) {
                 if (!\is_array($taskEntry)) {
                     continue;
                 }
@@ -240,6 +233,51 @@ final class Runner
             }
 
             $application->add($command);
+        }
+    }
+
+    /**
+     * @param \Robo\Application $application
+     *
+     * @throws \ReflectionException
+     */
+    private function registerDynamicTasks(Application $application)
+    {
+        $classes = Taskman::discoverTasksClasses('Plugin');
+
+        /** @var \ReflectionClass[] $tasks */
+        $tasks = [];
+        foreach ($classes as $className) {
+            $class = new \ReflectionClass($className);
+            if (!$class->isInstantiable()) {
+                continue;
+            }
+            $tasks[] = $class;
+        }
+
+        $builder = CollectionBuilder::create($this->container, '');
+
+        $inflector = $this->container->inflector(BuilderAwareInterface::class);
+        if ($inflector instanceof Inflector) {
+            $inflector->invokeMethod('setBuilder', [$builder]);
+        }
+
+        // Register custom Task classes.
+        foreach ($tasks as $taskReflectionClass) {
+            $this->container->add(
+                'task.' . $taskReflectionClass->getConstant('NAME'),
+                $taskReflectionClass->getName()
+            );
+        }
+
+        // Register custom YAML tasks.
+        $customTasks = $this->getConfig()->get('tasks', []);
+
+        foreach ($customTasks as $name => $tasks) {
+            $this->container->add(
+                'task.' . $name,
+                YamlTask::class
+            )->withArgument($tasks);
         }
     }
 }

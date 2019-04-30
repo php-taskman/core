@@ -1,0 +1,15 @@
+taskman:
+    bin_dir: ../../../../tests/_output/vendor/bin
+
+tasks:
+    baz:
+        - echo "foo foo foo"
+
+commands:
+    testJ:
+        - { task: "boo", msg: "boo boo boo" }
+    testK:
+        - { task: "boo", msg: "baz baz baz" }
+        - { task: "run", command: "testJ" }
+    testL:
+        - { task: "baz" }

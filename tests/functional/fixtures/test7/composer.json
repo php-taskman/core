@@ -11,7 +11,12 @@
             "phptaskman/core-tasks": "../../../../vendor/phptaskman/core-tasks"
         }
     },
-   "config": {
+    "config": {
         "vendor-dir": "../../../_output/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpTaskman\\Test\\": "src"
+        }
     }
 }

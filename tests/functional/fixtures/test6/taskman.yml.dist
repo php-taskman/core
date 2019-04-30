@@ -1,0 +1,12 @@
+prepend: "// prepend.php\n"
+append: "// append.php\n"
+write: "// write.php\n"
+
+commands:
+    testI:
+        - { task: "remove", file: "../../../_output/test6/tests" }
+        - { task: "copy", from: "originals", to: "../../../_output/test6", force: true }
+        - { task: "prepend", file: "../../../_output/test6/prepend.php", text: "${prepend}" }
+        - { task: "append", file: "../../../_output/test6/append.php", text: "${append}" }
+        - { task: "concat", files: ["originals/concat1.php", "originals/concat2.php"], to: "../../../_output/test6/concat.php" }
+        - { task: "write", file: "../../../_output/test6/write.php", text: "${write}" }

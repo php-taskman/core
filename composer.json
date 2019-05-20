@@ -22,7 +22,8 @@
     "suggest": {
         "phptaskman/drupal": "Provides Drupal related commands.",
         "phptaskman/package": "Provides commands to create a package out of your sources.",
-        "phptaskman/travis": "Provides commands to execute commands from a Travis file."
+        "phptaskman/travis": "Provides commands to execute commands from a Travis file.",
+        "phptaskman/changelog": "Provides commands to generate a changelog."
     },
     "config": {
         "sort-packages": true

@@ -7,6 +7,6 @@ commands:
     testF:
         - { task: "remove", file: "mkdir" }
     testG:
-        - { task: "${test.command}", file: "${test.command}" }
+        - { task: "${test.command}", file: "${test.command}", dir: "${test.command}" }
     testH:
         - { task: "remove", file: "${test.command}" }

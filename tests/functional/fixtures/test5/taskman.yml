@@ -1,6 +1,3 @@
 test:
     command: mkdir
 
-commands:
-    testG:
-        - { task: "${test.command}", dir: "${test.command}" }

@@ -90,9 +90,11 @@ final class Config
             }
         }
 
-        return \array_filter(
-            static::resolveImports(...\array_values($filesystemPaths)),
-            'file_exists'
+        return \array_reverse(
+            \array_filter(
+                static::resolveImports(...\array_values($filesystemPaths)),
+                'file_exists'
+            )
         );
     }
 

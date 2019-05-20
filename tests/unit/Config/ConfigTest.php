@@ -26,6 +26,7 @@ final class ConfigTest extends Unit
         );
 
         $expected = [
+            '/src/Config/../../config/default.yml',
             '/tests/unit/fixtures/Config/Config/vendor/a/b/taskman.yml.dist',
             '/tests/unit/fixtures/Config/Config/vendor/c/d/taskman.yml',
         ];
@@ -39,9 +40,6 @@ final class ConfigTest extends Unit
             $expected
         );
 
-        foreach (\array_combine($expected, $expected) as $key => $value) {
-            $this::assertArrayHasKey($key, $files);
-            $this::assertSame($value, $files[$key]);
-        }
+        $this::assertSame($expected, $files);
     }
 }

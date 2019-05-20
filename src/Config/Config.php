@@ -32,16 +32,16 @@ final class Config
 
         // Keep a reference of the default filename that we need to load from
         // each packages.
-        $filesToLoad = [
-            'taskman.yml',
-            'taskman.yml.dist',
+        $configFilesToLoad = [
+            'defaultConfig' => 'config/default.yml',
+            'defaultCommand' => 'default.yml',
         ];
 
-        // Load default paths.
-        $filesystemPaths = [
-            __DIR__ . '/../../config/default.yml',
-            __DIR__ . '/../../default.yml',
-            static::getLocalConfigurationFilepath(),
+        // Keep a reference of the default filename that we need to load from
+        // each packages.
+        $commandsFilesToLoad = [
+            'default' => 'taskman.yml.dist',
+            'defaultOverride' => 'taskman.yml',
         ];
 
         // Check if composer.lock exists.
@@ -70,13 +70,14 @@ final class Config
 
         $packageDirectories[] = $cwd;
 
+        $configs = [];
+        $commands = [];
+
         // Loop over each composer.json, deduct the package directory and probe for files to include.
         foreach ($packageDirectories as $packageDirectory) {
-            foreach ($filesToLoad as $taskmanFile) {
-                foreach ([$packageDirectory, $cwd] as $directory) {
-                    $candidateFile = $directory . '/' . $taskmanFile;
-                    $filesystemPaths[$candidateFile] = $candidateFile;
-                }
+            foreach ($configFilesToLoad as $taskmanFile) {
+                $candidateFile = $packageDirectory . '/' . $taskmanFile;
+                $configs[] = $candidateFile;
             }
 
             $composerConfig = Taskman::createJsonConfiguration(
@@ -84,18 +85,34 @@ final class Config
             );
 
             foreach ($composerConfig->get('extra.taskman.files', []) as $commandFile) {
-                $filesystemPaths[$commandFile] = $commandFile;
                 $commandFile = $packageDirectory . '/' . $commandFile;
-                $filesystemPaths[$commandFile] = $commandFile;
+                $configs[] = $commandFile;
+            }
+
+            foreach ($commandsFilesToLoad as $taskmanFile) {
+                $candidateFile = $packageDirectory . '/' . $taskmanFile;
+                $commands[] = $candidateFile;
             }
         }
 
-        return \array_reverse(
+        $localConfigFiles = [
+            __DIR__ . '/../../config/default.yml',
+            __DIR__ . '/../../default.yml',
+            static::getLocalConfigurationFilepath(),
+        ];
+
+        $configs = \array_filter(
             \array_filter(
-                static::resolveImports(...\array_values($filesystemPaths)),
+                \array_merge(
+                    $configs,
+                    $localConfigFiles,
+                    $commands
+                ),
                 'file_exists'
             )
         );
+
+        return \array_values($configs);
     }
 
     /**

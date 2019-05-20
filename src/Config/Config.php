@@ -33,8 +33,8 @@ final class Config
         // Keep a reference of the default filename that we need to load from
         // each packages.
         $filesToLoad = [
-            'taskman.yml.dist',
             'taskman.yml',
+            'taskman.yml.dist',
         ];
 
         // Load default paths.

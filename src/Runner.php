@@ -122,7 +122,7 @@ final class Runner
      *
      * @return int
      */
-    protected function getCommandArgumentMode(bool $hasDefault, $defaultValue)
+    protected function getCommandArgumentMode($hasDefault, $defaultValue)
     {
         if (!$hasDefault) {
             return InputArgument::REQUIRED;

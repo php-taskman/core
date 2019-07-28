@@ -5,8 +5,11 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
+use PhpTaskman\Core\Common\NullOutputAdapter;
+use PhpTaskman\Core\Robo\Task\PreconditionsCollectionFactoryTask;
 use PhpTaskman\CoreTasks\Plugin\Task\CollectionFactoryTask;
 use Robo\Collection\CollectionBuilder;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
@@ -121,7 +124,23 @@ final class YamlCommands extends AbstractCommands
             $arguments = [
                 'tasks' => $command['tasks'],
                 'options' => $inputOptions,
+                'preconditions' => $command['preconditions'] ?? [],
             ];
+
+            if (is_string($arguments['preconditions'])) {
+                $arguments['preconditions'] = [$arguments['preconditions']];
+            }
+
+            /** @var CollectionFactoryTask $preconditionsTask */
+            $preconditionsTask = $this->task(CollectionFactoryTask::class);
+            $preconditionsTask->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_DEBUG);
+            $preconditionsTask->setTaskArguments([
+                'tasks' => $arguments['preconditions'],
+            ]);
+
+            if (0 !== $preconditionsTask->run()->getExitCode()) {
+                $arguments['tasks'] = [];
+            }
         } else {
             $arguments = [
                 'tasks' => $command,

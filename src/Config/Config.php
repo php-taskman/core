@@ -20,7 +20,7 @@ final class Config
     public static function findFilesToIncludeInConfiguration($cwd)
     {
         // Check if composer.json exists.
-        $composerPath = \realpath($cwd . '/composer.json');
+        $composerPath = realpath($cwd . '/composer.json');
 
         if (false === $composerPath) {
             return [];
@@ -45,7 +45,7 @@ final class Config
         ];
 
         // Check if composer.lock exists.
-        $composerLockPath = \realpath($cwd . '/composer.lock');
+        $composerLockPath = realpath($cwd . '/composer.lock');
 
         if (false === $composerLockPath) {
             return [];
@@ -56,12 +56,12 @@ final class Config
         );
 
         // Get the dependencies packages directories.
-        $packageDirectories = \array_filter(
-            \array_map(
+        $packageDirectories = array_filter(
+            array_map(
                 static function ($package) use ($vendorDir) {
-                    return \realpath($vendorDir . '/' . $package['name']);
+                    return realpath($vendorDir . '/' . $package['name']);
                 },
-                \array_merge(
+                array_merge(
                     $composerLockConfig->get('packages', []),
                     $composerLockConfig->get('packages-dev', [])
                 )
@@ -101,9 +101,9 @@ final class Config
             static::getLocalConfigurationFilepath(),
         ];
 
-        $configs = \array_filter(
-            \array_filter(
-                \array_merge(
+        $configs = array_filter(
+            array_filter(
+                array_merge(
                     $configs,
                     $localConfigFiles,
                     $commands
@@ -112,7 +112,7 @@ final class Config
             )
         );
 
-        return \array_values($configs);
+        return array_values($configs);
     }
 
     /**
@@ -126,19 +126,17 @@ final class Config
      */
     public static function getLocalConfigurationFilepath($configuration_file = 'phptaskman/taskman.yml')
     {
-        if ($config = \getenv('PHPTASKMAN_CONFIG')) {
+        if ($config = getenv('PHPTASKMAN_CONFIG')) {
             return $config;
         }
 
-        if ($config = \getenv('XDG_CONFIG_HOME')) {
+        if ($config = getenv('XDG_CONFIG_HOME')) {
             return $config . '/' . $configuration_file;
         }
 
-        if ($home = \getenv('HOME')) {
-            return \getenv('HOME') . '/.config/' . $configuration_file;
+        if ($home = getenv('HOME')) {
+            return getenv('HOME') . '/.config/' . $configuration_file;
         }
-
-        return null;
     }
 
     /**

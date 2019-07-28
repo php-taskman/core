@@ -19,7 +19,7 @@ final class YamlRecursivePathsFinderTest extends Unit
      */
     protected $tester;
 
-    public function testYamlRecursivePathsFinderFeature()
+    public function testYamlRecursivePathsFinderFeature(): void
     {
         $result = [
             'tests/unit/fixtures/Config/YamlRecursivePathsFinder/a.yml',
@@ -32,7 +32,7 @@ final class YamlRecursivePathsFinderTest extends Unit
         $yamlRecursivePathsFinder = new YamlRecursivePathsFinder([$result[0]]);
 
         $this->tester->assertSame(
-            \array_combine($result, $result),
+            array_combine($result, $result),
             $yamlRecursivePathsFinder->getAllPaths()
         );
     }

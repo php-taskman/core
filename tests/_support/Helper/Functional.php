@@ -20,19 +20,19 @@ class Functional extends Module
     /**
      * @param \Codeception\TestInterface $test
      */
-    public function _after(TestInterface $test)
+    public function _after(TestInterface $test): void
     {
         parent::_after($test);
 
-        \chdir($this->directory);
+        chdir($this->directory);
     }
 
     /**
      * @param \Codeception\TestInterface $test
      */
-    public function _before(TestInterface $test)
+    public function _before(TestInterface $test): void
     {
         parent::_before($test);
-        $this->directory = \getcwd();
+        $this->directory = getcwd();
     }
 }

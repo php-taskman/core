@@ -22,18 +22,18 @@ final class TaskmanTest extends Unit
      */
     protected $tester;
 
-    public function testCreateConfiguration()
+    public function testCreateConfiguration(): void
     {
         $cwd = __DIR__ . '/../../';
 
         $configuration = Taskman::createConfiguration([]);
-        $this::assertSame(\realpath($cwd), $configuration->get('taskman.working_dir'));
+        $this::assertSame(realpath($cwd), $configuration->get('taskman.working_dir'));
 
         $configuration = Taskman::createConfiguration([], $cwd . '/foo');
         $this::assertNull($configuration->get('taskman.working_dir'));
     }
 
-    public function testCreateContainer()
+    public function testCreateContainer(): void
     {
         $config = Taskman::createConfiguration([]);
         $classLoader = require __DIR__ . '/../_output/vendor/autoload.php';
@@ -47,7 +47,7 @@ final class TaskmanTest extends Unit
         );
     }
 
-    public function testCreateDefaultApplication()
+    public function testCreateDefaultApplication(): void
     {
         $app = Taskman::createDefaultApplication();
 
@@ -56,7 +56,7 @@ final class TaskmanTest extends Unit
         $this::assertSame('Taskman', $app->getName());
     }
 
-    public function testCreateDefaultRunner()
+    public function testCreateDefaultRunner(): void
     {
         $classLoader = require __DIR__ . '/../_output/vendor/autoload.php';
         $config = Taskman::createConfiguration([]);

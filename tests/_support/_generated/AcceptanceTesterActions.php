@@ -353,6 +353,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('deleteThisFile', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -367,6 +368,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('dontSeeFileFound', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -380,6 +382,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('dontSeeInShellOutput', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -447,6 +450,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('runShellCommand', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -470,6 +474,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeFileContentsEqual', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -491,6 +496,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeFileFound', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -504,6 +510,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeInShellOutput', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -526,6 +533,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeInThisFile', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -548,6 +556,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeNumberNewLines', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -566,6 +575,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeResultCodeIs', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -584,6 +594,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeResultCodeIsNot', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -595,6 +606,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeShellOutputMatches', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -623,6 +635,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('writeToFile', \func_get_args()));
     }
+
     /**
      * @return \Codeception\Scenario
      */

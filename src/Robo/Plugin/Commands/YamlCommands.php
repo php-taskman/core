@@ -107,6 +107,7 @@ final class YamlCommands extends AbstractCommands
         }
 
         $inputOptions = [];
+
         foreach ($this->input()->getOptions() as $name => $value) {
             if ($this->input()->hasParameterOption('--' . $name)) {
                 $inputOptions[$name] = $value;

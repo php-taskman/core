@@ -34,13 +34,13 @@ final class Taskman
      */
     public static function createConfiguration($paths, $workingDir = null)
     {
-        $workingDir = $workingDir ?? \getcwd();
+        $workingDir = $workingDir ?? getcwd();
 
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
         // Set the variable working_dir.
-        if (false === $workingDir = \realpath($workingDir)) {
+        if (false === $workingDir = realpath($workingDir)) {
             return $config;
         }
 
@@ -95,8 +95,8 @@ final class Taskman
 
         $app = Robo::createDefaultApplication($appName, $appVersion);
 
-        if (null === $workingDir || false === $workingDir = \realpath($workingDir)) {
-            $workingDir = \getcwd();
+        if (null === $workingDir || false === $workingDir = realpath($workingDir)) {
+            $workingDir = getcwd();
         }
 
         $app
@@ -164,9 +164,12 @@ final class Taskman
      * @param null|Config $config
      *   A config object.
      */
-    public static function loadJsonConfiguration(array $paths, ?Config $config)
+    public static function loadJsonConfiguration(array $paths, ?Config $config): void
     {
         if (null === $config) {
+            // This needs to be removed when Robo will have the method replace()
+            // in the ConfigInterface interface.
+            /** @var Config $config */
             $config = Robo::config();
         }
 
@@ -178,6 +181,6 @@ final class Taskman
             $processor->extend($loader->load($path));
         }
 
-        $config->import($processor->export());
+        $config->replace($processor->export());
     }
 }

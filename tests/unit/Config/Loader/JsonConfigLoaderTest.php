@@ -19,14 +19,14 @@ final class JsonConfigLoaderTest extends Unit
      */
     protected $tester;
 
-    public function testLoadFeature()
+    public function testLoadFeature(): void
     {
         $jsonConfigLoader = new JsonConfigLoader();
 
         $composerJson = __DIR__ . '/../../fixtures/Config/Loader/composer.json';
 
-        $composerJsonArray = \json_decode(
-            \file_get_contents($composerJson),
+        $composerJsonArray = json_decode(
+            file_get_contents($composerJson),
             true
         );
         $jsonConfigLoader->load($composerJson);

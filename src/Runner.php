@@ -6,10 +6,11 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use League\Container\Inflector\Inflector;
-use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
-use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use League\Container\ContainerAwareTrait;
+use League\Container\Inflector\Inflector;
+use PhpTaskman\Core\Collection\ConditionCollectionBuilder;
+use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
+use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
 use Robo\Application;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
@@ -74,7 +75,7 @@ final class Runner
         $this->output = $output ?? new ConsoleOutput();
         $this->classLoader = $classLoader ?? new ClassLoader();
 
-        \chdir($this->input->getParameterOption('--working-dir', \getcwd()));
+        chdir($this->input->getParameterOption('--working-dir', getcwd()));
 
         $this->config = Taskman::createConfiguration(
             [],
@@ -129,6 +130,7 @@ final class Runner
         if (!$hasDefault) {
             return InputArgument::REQUIRED;
         }
+
         if (\is_array($defaultValue)) {
             return InputArgument::IS_ARRAY;
         }
@@ -140,14 +142,15 @@ final class Runner
      * @param \Consolidation\AnnotatedCommand\AnnotatedCommand $command
      * @param array $commandDefinition
      */
-    private function addOptions(AnnotatedCommand $command, array $commandDefinition)
+    private function addOptions(AnnotatedCommand $command, array $commandDefinition): void
     {
         // This command doesn't define any option.
         if (empty($commandDefinition['options'])) {
             return;
         }
 
-        $defaults = \array_fill_keys(['shortcut', 'mode', 'description', 'default'], null);
+        $defaults = array_fill_keys(['shortcut', 'mode', 'description', 'default'], null);
+
         foreach ($commandDefinition['options'] as $optionName => $optionDefinition) {
             $optionDefinition += $defaults;
             $command->addOption(
@@ -163,7 +166,7 @@ final class Runner
     /**
      * @param \Robo\Application $application
      */
-    private function registerDynamicCommands(Application $application)
+    private function registerDynamicCommands(Application $application): void
     {
         $commandDefinitions = $this->getConfig()->get('commands', []);
 
@@ -177,6 +180,7 @@ final class Runner
             $commandInfo = $commandFactory->createCommandInfo($commandClass, 'runTasks');
 
             $commandDefinition += ['options' => []];
+
             foreach ($commandDefinition['options'] as &$option) {
                 if (isset($option['mode'])) {
                     continue;
@@ -244,14 +248,16 @@ final class Runner
      *
      * @throws \ReflectionException
      */
-    private function registerDynamicTasks(Application $application)
+    private function registerDynamicTasks(Application $application): void
     {
         $classes = Taskman::discoverTasksClasses('Plugin');
 
         /** @var \ReflectionClass[] $tasks */
         $tasks = [];
+
         foreach ($classes as $className) {
             $class = new \ReflectionClass($className);
+
             if (!$class->isInstantiable()) {
                 continue;
             }
@@ -261,6 +267,7 @@ final class Runner
         $builder = CollectionBuilder::create($this->container, '');
 
         $inflector = $this->container->inflector(BuilderAwareInterface::class);
+
         if ($inflector instanceof Inflector) {
             $inflector->invokeMethod('setBuilder', [$builder]);
         }

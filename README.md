@@ -169,6 +169,10 @@ commands:
     # placed under the 'tasks' key...
     tasks:
       - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
+    # Add preconditions that are going to be evaluated before running the command.
+    # If one of these preconditions does not returns 0, the command is not runned. 
+    preconditions:
+      - test -f .env
     # ...and option definitions are under 'options' key.
     options:
       # The option name, without the leading double dash ('--').

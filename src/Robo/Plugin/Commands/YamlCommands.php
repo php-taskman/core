@@ -5,8 +5,6 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use PhpTaskman\Core\Common\NullOutputAdapter;
-use PhpTaskman\Core\Robo\Task\PreconditionsCollectionFactoryTask;
 use PhpTaskman\CoreTasks\Plugin\Task\CollectionFactoryTask;
 use Robo\Collection\CollectionBuilder;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -127,7 +125,7 @@ final class YamlCommands extends AbstractCommands
                 'preconditions' => $command['preconditions'] ?? [],
             ];
 
-            if (is_string($arguments['preconditions'])) {
+            if (\is_string($arguments['preconditions'])) {
                 $arguments['preconditions'] = [$arguments['preconditions']];
             }
 

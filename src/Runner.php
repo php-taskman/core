@@ -8,7 +8,6 @@ use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
 use League\Container\ContainerAwareTrait;
 use League\Container\Inflector\Inflector;
-use PhpTaskman\Core\Collection\ConditionCollectionBuilder;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
 use Robo\Application;

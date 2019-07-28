@@ -1,0 +1,13 @@
+taskman:
+    bin_dir: ../../../../tests/_output/vendor/bin
+
+tasks:
+    baz:
+        - echo "foo foo foo"
+
+commands:
+    boo:
+        tasks:
+            - { task: "baz" }
+        preconditions:
+            - ls /this-does-not-exist

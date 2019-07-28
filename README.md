@@ -1,11 +1,13 @@
-[![Latest Stable Version](https://img.shields.io/github/release/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
- [![Stars](https://img.shields.io/github/stars/php-taskman/core.svg?style=flat-square)](https://github.com/php-taskman/core)
- [![Total Downloads](https://img.shields.io/packagist/dt/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+[![Latest Stable Version](https://img.shields.io/packagist/v/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+ [![GitHub stars](https://img.shields.io/github/stars/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/php-taskman/core)
+ [![Total Downloads](https://img.shields.io/packagist/dt/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/php-taskman/core)
  [![Build Status](https://img.shields.io/travis/php-taskman/core/master.svg?style=flat-square)](https://travis-ci.org/php-taskman/core)
- [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/php-taskman/core.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/php-taskman/core.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![License](https://img.shields.io/github/license/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
- 
+ [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/php-taskman/core/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/php-taskman/core/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![License](https://img.shields.io/packagist/l/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+ [![Say Thanks!](https://img.shields.io/badge/Say-thanks-brightgreen.svg?style=flat-square)](https://saythanks.io/to/drupol)
+ [![Donate!](https://img.shields.io/badge/Donate-Paypal-brightgreen.svg?style=flat-square)](https://paypal.me/drupol)
+  
 # PHP Taskman
 
 ## Description
@@ -23,13 +25,7 @@ Taskman is based on [Robo](https://robo.li/) and not tied to any framework or wh
 
 ## Installation
 
-If you're using PHP 7 (_tags starting with `1`_):
-
 ```composer require phptaskman/core```
-
-If you're using PHP 5.6, then you must use the branch `0.x` or tags starting with `0`
-
-```composer require phptaskman/core:dev-0.x```
 
 ## Configuration
 

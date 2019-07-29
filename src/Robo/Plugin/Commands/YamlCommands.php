@@ -137,7 +137,7 @@ final class YamlCommands extends AbstractCommands
                 'options' => [],
             ]);
 
-            if (0 !== $preconditionsTask->run()->getExitCode()) {
+            if (false === $preconditionsTask->run()->wasSuccessful()) {
                 $arguments['tasks'] = [];
             }
         } else {

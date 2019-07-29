@@ -18,6 +18,7 @@ use Robo\Tasks;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -95,6 +96,8 @@ final class Runner
         );
 
         $this->runner = Taskman::createDefaultRunner($this->container);
+
+        $this->registerGlobalCommandOptions();
     }
 
     /**
@@ -297,6 +300,43 @@ final class Runner
                 'task.' . $name,
                 YamlTask::class
             )->withArgument($tasks);
+        }
+    }
+
+    /**
+     * Register the global commands options.
+     */
+    private function registerGlobalCommandOptions(): void
+    {
+        $globalOptions = $this->config->get('globals.options', null);
+
+        if (null === $globalOptions) {
+            return;
+        }
+
+        foreach ($globalOptions as $option => $optionDefinition) {
+            $optionDefinition += [
+                'default' => null,
+                'description' => '',
+            ];
+
+            $this->config->set(
+                'taskman.' . $option,
+                $this->input->getParameterOption('--' . $option, $optionDefinition['default'])
+            );
+
+            $this
+                ->application
+                ->getDefinition()
+                ->addOption(
+                    new InputOption(
+                        '--' . $option,
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        $optionDefinition['description'],
+                        $optionDefinition['default']
+                    )
+                );
         }
     }
 }

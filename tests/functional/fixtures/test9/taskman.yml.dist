@@ -1,0 +1,18 @@
+globals:
+    options:
+        foo:
+            config: foo
+            mode: 4
+            description: bar
+            default: This is the global foo option value.
+        bar:
+            config: bar
+            mode: 4
+            description: bar
+            default: bar
+
+commands:
+    baz:
+        description: baz command
+        tasks:
+            - echo ${taskman.foo}

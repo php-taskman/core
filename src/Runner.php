@@ -66,6 +66,8 @@ final class Runner
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param ClassLoader $classLoader
+     *
+     * @throws \Exception
      */
     public function __construct(
         InputInterface $input = null,
@@ -320,12 +322,12 @@ final class Runner
 
             $optionDefinition['default'] = $this->input->getParameterOption(
                 '--' . $option,
-                $optionDefinition['default'] ?? null
+                $optionDefinition['default']
             );
 
             // Special handling for the working-dir option.
-            if ('working-dir' === $option && null === $optionDefinition['default']) {
-                $optionDefinition['default'] = getcwd();
+            if ('working-dir' === $option) {
+                $optionDefinition['default'] = realpath($optionDefinition['default']);
             }
 
             $config->set($optionMachineName, $optionDefinition['default']);

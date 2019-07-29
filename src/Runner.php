@@ -316,7 +316,6 @@ final class Runner
 
             $optionDefinition += [
                 'default' => null,
-                'description' => '',
             ];
 
             $optionDefinition['default'] = $this->input->getParameterOption(
@@ -324,11 +323,17 @@ final class Runner
                 $optionDefinition['default'] ?? null
             );
 
-            if ('working-dir' === $option && $optionDefinition['default'] === null) {
+            // Special handling for the working-dir option.
+            if ('working-dir' === $option && null === $optionDefinition['default']) {
                 $optionDefinition['default'] = getcwd();
             }
 
             $config->set($optionMachineName, $optionDefinition['default']);
+
+            $optionDefinition += [
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => '',
+            ];
 
             $this
                 ->application
@@ -337,7 +342,7 @@ final class Runner
                     new InputOption(
                         '--' . $option,
                         null,
-                        InputOption::VALUE_OPTIONAL,
+                        $optionDefinition['mode'],
                         $optionDefinition['description'],
                         $optionDefinition['default']
                     )

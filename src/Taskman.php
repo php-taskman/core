@@ -9,7 +9,6 @@ use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use League\Container\Container;
 use League\Container\ContainerInterface;
-use mysql_xdevapi\Exception;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
 use Robo\Application;
 use Robo\Config\Config;
@@ -37,7 +36,9 @@ final class Taskman
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
-        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration(getcwd());
+        if (false !== $cwd = getcwd()) {
+            $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($cwd);
+        }
 
         // Load the configuration.
         Robo::loadConfiguration(
@@ -94,15 +95,21 @@ final class Taskman
     /**
      * @param ContainerInterface $container
      *
-     * @return \Robo\Runner
-     *
      * @throws \Exception
+     *
+     * @return \Robo\Runner
      */
     public static function createDefaultRunner(ContainerInterface $container)
     {
-        $workingDir = $container->get('input')->getParameterOption('--working-dir', getcwd());
+        $cwd = getcwd();
 
-        if (realpath($workingDir) === false) {
+        $workingDir = $container->get('input')->getParameterOption('--working-dir', $cwd);
+
+        if (null === $workingDir) {
+            $workingDir = $cwd;
+        }
+
+        if (false === realpath($workingDir)) {
             throw new \Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
         }
 

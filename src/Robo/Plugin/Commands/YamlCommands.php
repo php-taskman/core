@@ -134,6 +134,7 @@ final class YamlCommands extends AbstractCommands
             $preconditionsTask->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_DEBUG);
             $preconditionsTask->setTaskArguments([
                 'tasks' => $arguments['preconditions'],
+                'options' => [],
             ]);
 
             if (0 !== $preconditionsTask->run()->getExitCode()) {

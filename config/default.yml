@@ -1,6 +1,12 @@
 # =============================================================================
 # Default Runner configuration
 # =============================================================================
+globals:
+    options:
+        working-dir:
+            config: working_dir
+            mode: 2
+            description: Working directory, defaults to current working directory.
 
 taskman:
     bin_dir: vendor/bin

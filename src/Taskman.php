@@ -9,12 +9,12 @@ use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use League\Container\Container;
 use League\Container\ContainerInterface;
+use mysql_xdevapi\Exception;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
 use Robo\Application;
 use Robo\Config\Config;
 use Robo\Robo;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -28,26 +28,16 @@ final class Taskman
     /**
      * Create default configuration.
      *
-     * @param null|mixed $workingDir
      * @param mixed $paths
      *
      * @return \Consolidation\Config\ConfigInterface
      */
-    public static function createConfiguration($paths, $workingDir = null)
+    public static function createConfiguration($paths)
     {
-        $workingDir = $workingDir ?? getcwd();
-
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
-        // Set the variable working_dir.
-        if (false === $workingDir = realpath($workingDir)) {
-            return $config;
-        }
-
-        $config->set('taskman.working_dir', $workingDir);
-
-        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir);
+        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration(getcwd());
 
         // Load the configuration.
         Robo::loadConfiguration(
@@ -96,22 +86,6 @@ final class Taskman
 
         $app = Robo::createDefaultApplication($appName, $appVersion);
 
-        if (null === $workingDir || false === $workingDir = realpath($workingDir)) {
-            $workingDir = getcwd();
-        }
-
-        $app
-            ->getDefinition()
-            ->addOption(
-                new InputOption(
-                    '--working-dir',
-                    null,
-                    InputOption::VALUE_REQUIRED,
-                    'Working directory, defaults to current working directory.',
-                    $workingDir
-                )
-            );
-
         $app->setAutoExit(false);
 
         return $app;
@@ -121,9 +95,19 @@ final class Taskman
      * @param ContainerInterface $container
      *
      * @return \Robo\Runner
+     *
+     * @throws \Exception
      */
     public static function createDefaultRunner(ContainerInterface $container)
     {
+        $workingDir = $container->get('input')->getParameterOption('--working-dir', getcwd());
+
+        if (realpath($workingDir) === false) {
+            throw new \Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
+        }
+
+        chdir($workingDir);
+
         return (new \Robo\Runner())
             ->setRelativePluginNamespace('Robo\Plugin')
             ->setContainer($container);

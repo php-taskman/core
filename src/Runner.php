@@ -76,17 +76,12 @@ final class Runner
         $this->output = $output ?? new ConsoleOutput();
         $this->classLoader = $classLoader ?? new ClassLoader();
 
-        chdir($this->input->getParameterOption('--working-dir', getcwd()));
-
         $this->config = Taskman::createConfiguration(
-            [],
-            $this->workingDir
+            []
         );
-        $this->application = Taskman::createDefaultApplication(
-            null,
-            null,
-            $this->workingDir
-        );
+
+        $this->application = Taskman::createDefaultApplication();
+
         $this->container = Taskman::createContainer(
             $this->input,
             $this->output,
@@ -314,16 +309,26 @@ final class Runner
             return;
         }
 
+        $config = $this->getConfig();
+
         foreach ($globalOptions as $option => $optionDefinition) {
+            $optionMachineName = 'taskman.' . $optionDefinition['config'] ?? $option;
+
             $optionDefinition += [
                 'default' => null,
                 'description' => '',
             ];
 
-            $this->config->set(
-                'taskman.' . $option,
-                $this->input->getParameterOption('--' . $option, $optionDefinition['default'])
+            $optionDefinition['default'] = $this->input->getParameterOption(
+                '--' . $option,
+                $optionDefinition['default'] ?? null
             );
+
+            if ('working-dir' === $option && $optionDefinition['default'] === null) {
+                $optionDefinition['default'] = getcwd();
+            }
+
+            $config->set($optionMachineName, $optionDefinition['default']);
 
             $this
                 ->application

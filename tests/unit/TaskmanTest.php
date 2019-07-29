@@ -24,13 +24,7 @@ final class TaskmanTest extends Unit
 
     public function testCreateConfiguration(): void
     {
-        $cwd = __DIR__ . '/../../';
-
         $configuration = Taskman::createConfiguration([]);
-        $this::assertSame(realpath($cwd), $configuration->get('taskman.working_dir'));
-
-        $configuration = Taskman::createConfiguration([], $cwd . '/foo');
-        $this::assertNull($configuration->get('taskman.working_dir'));
     }
 
     public function testCreateContainer(): void

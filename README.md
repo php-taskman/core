@@ -219,6 +219,34 @@ Now you can run the command and change the value of the command option dynamical
 ./bin/console test:command --env=prod
 ```
 
+### Define global environment variables
+
+Taskman let you set environment variables using the special key `env`.
+
+You can also use those variables in tasks that are going to be executed.
+
+```yaml
+env:
+    FOO: This is the value of the FOO environment variable
+
+commands:
+    test:command:
+        tasks:
+            - echo $FOO
+```
+
+```bash
+./bin/taskman test:command
+```
+
+Will output:
+
+```bash
+[Exec] Running echo $FOO
+  This is the value of the FOO environment variable
+[Exec] Done in 0.003s
+```
+
 ## Contributing
 
 See [Contributing](CONTRIBUTING.md).

@@ -18,6 +18,8 @@ It will help you in your every day life of setting up recurring tasks that you h
 
 Taskman is based on [Robo](https://robo.li/) and not tied to any framework or whatsoever.
 
+Taskman can be customized mostly through YAML files, however, more complex commands and/or tasks can be created in PHP.
+
 ## Requirements
 
 * PHP >= 5.6

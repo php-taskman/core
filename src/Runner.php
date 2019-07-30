@@ -327,6 +327,10 @@ final class Runner
 
             // Special handling for the working-dir option.
             if ('working-dir' === $option) {
+                if (null === $optionDefinition['default']) {
+                    $optionDefinition['default'] = getcwd();
+                }
+
                 $optionDefinition['default'] = realpath($optionDefinition['default']);
             }
 

@@ -317,7 +317,7 @@ final class Runner
         $config = $this->getConfig();
 
         foreach ($globalOptions as $option => $optionDefinition) {
-            $optionMachineName = 'taskman.' . ($optionDefinition['config'] ?? $option);
+            $optionMachineName = 'options.' . ($optionDefinition['config'] ?? $option);
 
             $optionDefinition += [
                 'default' => null,

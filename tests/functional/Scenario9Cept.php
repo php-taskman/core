@@ -12,18 +12,18 @@ $I->runShellCommand('../../../_output/vendor/bin/taskman');
 $I->canSeeInShellOutput('--foo[=FOO]');
 $I->canSeeInShellOutput('[default: "This is the global foo option value."]');
 
-$I->runShellCommand('../../../_output/vendor/bin/taskman test.foo');
+$I->runShellCommand('../../../_output/vendor/bin/taskman test:foo');
 $I->canSeeInShellOutput('This is the global foo option value.');
 
-$I->runShellCommand('../../../_output/vendor/bin/taskman test.wd');
+$I->runShellCommand('../../../_output/vendor/bin/taskman test:wd');
 $I->canSeeInShellOutput(realpath(getcwd()));
 
-$I->runShellCommand('../../../_output/vendor/bin/taskman test.wd --working-dir="/"');
+$I->runShellCommand('../../../_output/vendor/bin/taskman test:wd --working-dir="/"');
 $I->canSeeInShellOutput(realpath('/'));
 
 $I->expectException(
     \PHPUnit\Framework\AssertionFailedError::class,
     static function () use ($I): void {
-        $I->runShellCommand('../../../_output/vendor/bin/taskman test.wd --working-dir="/foo-foo"');
+        $I->runShellCommand('../../../_output/vendor/bin/taskman test:wd --working-dir="/foo-foo"');
     }
 );

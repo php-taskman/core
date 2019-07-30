@@ -1,15 +1,13 @@
 globals:
     options:
         foo:
-            config: foo
-            mode: 4
             description: foo description
             default: This is the global foo option value.
 
 commands:
-    test.foo:
+    test:foo:
         tasks:
-            - echo ${taskman.foo}
-    test.wd:
+            - echo ${options.foo}
+    test:wd:
         tasks:
-            - echo ${taskman.working_dir}
+            - echo ${options.working_dir}

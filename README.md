@@ -136,7 +136,7 @@ Commands can reference each other, allowing for complex scenarios to be implemen
 
 * Create a file `taskman.yml` or `taskman.yml.dist` in your project, and start adding commands:
 
-```
+```yaml
 commands:
   hello-world:
     - echo "Hello"

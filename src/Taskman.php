@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
+use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use League\Container\Container;
 use League\Container\ContainerInterface;
@@ -30,7 +31,7 @@ final class Taskman
      * @param null|mixed $workingDir
      * @param mixed $paths
      *
-     * @return Config
+     * @return \Consolidation\Config\ConfigInterface
      */
     public static function createConfiguration($paths, $workingDir = null)
     {
@@ -63,7 +64,7 @@ final class Taskman
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param Application $application
-     * @param Config $config
+     * @param ConfigInterface $config
      * @param ClassLoader $classLoader
      *
      * @return Container|\League\Container\ContainerInterface
@@ -72,7 +73,7 @@ final class Taskman
         InputInterface $input,
         OutputInterface $output,
         Application $application,
-        Config $config,
+        ConfigInterface $config,
         ClassLoader $classLoader
     ) {
         $container = Robo::createDefaultContainer($input, $output, $application, $config, $classLoader);

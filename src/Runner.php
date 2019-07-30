@@ -93,8 +93,6 @@ final class Runner
         );
 
         $this->runner = Taskman::createDefaultRunner($this->container);
-
-        $this->registerGlobalCommandOptions();
     }
 
     /**
@@ -114,6 +112,9 @@ final class Runner
 
         // Register tasks
         $this->registerDynamicTasks($this->application);
+
+        // Register global options.
+        $this->registerGlobalCommandOptions($this->application);
 
         // Run command.
         return $this->runner->run($this->input, $this->output, $this->application);
@@ -302,8 +303,10 @@ final class Runner
 
     /**
      * Register the global commands options.
+     *
+     * @param \Robo\Application $application
      */
-    private function registerGlobalCommandOptions(): void
+    private function registerGlobalCommandOptions(Application $application): void
     {
         $globalOptions = $this->config->get('globals.options', null);
 
@@ -341,8 +344,7 @@ final class Runner
                 'description' => '',
             ];
 
-            $this
-                ->application
+            $application
                 ->getDefinition()
                 ->addOption(
                     new InputOption(

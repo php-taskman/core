@@ -116,8 +116,24 @@ final class Runner
         // Register global options.
         $this->registerGlobalCommandOptions($this->application);
 
+        // Register ENV variables.
+        $this->registerEnvVariables($this->application);
+
         // Run command.
         return $this->runner->run($this->input, $this->output, $this->application);
+    }
+
+    /**
+     * @param \Robo\Application $application
+     */
+    private function registerEnvVariables(Application $application): void
+    {
+        $envVariables = $this->config->get('env', null) ?? [];
+
+        foreach ($envVariables as $name => $value) {
+            $_ENV[$name] = $value;
+            putenv(sprintf('%s=%s', $name, $value));
+        }
     }
 
     /**

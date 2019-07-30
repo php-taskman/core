@@ -1,0 +1,10 @@
+env:
+    FOO: BAR
+
+commands:
+    foo:bar:
+        preconditions: test $FOO = BAR
+        tasks:
+            - env
+            - echo $FOO
+            - echo "FOO === BAR"

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace PhpTaskman\Core\Tests\unit;
 
 use Codeception\Test\Unit;
+use PhpTaskman\Core\Runner;
 use PhpTaskman\Core\Taskman;
 use Robo\Application;
 use Symfony\Component\Console\Input\StringInput;
@@ -63,7 +64,7 @@ final class TaskmanTest extends Unit
             $classLoader
         );
 
-        $runner = new \PhpTaskman\Core\Runner(
+        $runner = new Runner(
             new StringInput(''),
             new BufferedOutput(),
             $classLoader

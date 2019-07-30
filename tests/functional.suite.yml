@@ -11,3 +11,4 @@ modules:
         - Cli
         - Filesystem
         - \Helper\Functional
+        - Asserts

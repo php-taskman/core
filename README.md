@@ -82,11 +82,11 @@ Then run a command:
 
 ## Documentation
 
-The documentation is not up to date, this is a work in progress.
+The documentation is not up to date, this is a never ending work in progress.
 
 Taskman will run commands. Commands contains one or multiple tasks.
 
-A task can be defined using YAML or through code, same goes for commands.
+Commands or tasks can be defined using YAML or through code.
 
 An example of custom command with some tasks in a `taskman.yml.dist` file:
 
@@ -196,6 +196,29 @@ commands:
         # Optional. A default value when an optional option is not present in
         # the input.
         default: null
+```
+
+### Define global command options
+
+You can define global options that can be applied to any commands.
+
+```yaml
+globals:
+    options:
+        env:
+            description: Environment
+            default: dev
+
+commands:
+    test:command:
+        tasks:
+            - echo "Running on environment ${options.env}"
+```
+
+Now you can run the command and change the value of the command option dynamically:
+
+```bash
+./bin/console test:command --env=prod
 ```
 
 ## Contributing

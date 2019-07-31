@@ -63,7 +63,7 @@ abstract class AbstractCommands implements
         /** @var \Robo\Config\Config $config */
         $config = $this->getConfig();
 
-        if (null === $config->get('taskman.bin_dir')) {
+        if (null === $config->get('options.bin_dir')) {
             if (null !== $composerConfig = Taskman::createJsonConfiguration([getcwd() . '/composer.json'])) {
                 // The COMPOSER_BIN_DIR environment takes precedence over the value
                 // defined in composer.json config, if any. Default to ./vendor/bin.
@@ -76,7 +76,7 @@ abstract class AbstractCommands implements
                 }
 
                 $composerBinDir = rtrim($composerBinDir, \DIRECTORY_SEPARATOR);
-                $config->set('taskman.bin_dir', $composerBinDir);
+                $config->set('options.bin_dir', $composerBinDir);
             }
         }
 

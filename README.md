@@ -7,15 +7,14 @@
  [![License](https://img.shields.io/packagist/l/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
  [![Say Thanks!](https://img.shields.io/badge/Say-thanks-brightgreen.svg?style=flat-square)](https://saythanks.io/to/drupol)
  [![Donate!](https://img.shields.io/badge/Donate-Paypal-brightgreen.svg?style=flat-square)](https://paypal.me/drupol)
-  
+
 # PHP Taskman
 
 ## Description
 
 Taskman is a helper for running commands and tasks. It is shipped with a few simple default tasks.
 
-It will help you in your every day life of to setup recurrent tasks that you have to run in your project in order to
-set it up or install it.
+It will help you in your every day life of setting up recurring tasks that you have to run in your projects.
 
 Taskman is based on [Robo](https://robo.li/) and not tied to any framework or whatsoever.
 
@@ -82,11 +81,11 @@ Then run a command:
 
 ## Documentation
 
-The documentation is not up to date, this is a work in progress.
+The documentation is not up to date, this is a never ending work in progress.
 
 Taskman will run commands. Commands contains one or multiple tasks.
 
-A task can be defined using YAML or through code, same goes for commands.
+Commands or tasks can be defined using YAML or through code.
 
 An example of custom command with some tasks in a `taskman.yml.dist` file:
 
@@ -106,7 +105,7 @@ As you can see, there are 2 custom commands that are defined: `foo:foo` and `foo
 
 Those commands contains tasks, 4 tasks for `foo:foo` and 2 tasks for `foo:remove`.
 
-A task can be either a string or an well structured array.
+A task can be either a string or a well structured array.
 
 ### Expose custom tasks in YAML
 
@@ -128,12 +127,12 @@ commands:
     - { task: "baz" }
 ```
 
-There are a few tasks that are supported by default in Taskman and provided by [the package phptaskman/core-tasks](https://packagist.org/packages/phptaskman/core-tasks).
+There are a few tasks that are supported by default in Taskman and provided by [the phptaskman/core-tasks package](https://packagist.org/packages/phptaskman/core-tasks).
 
 ### Expose custom commands in YAML
 
-Taskman allows you to expose new commands using a yaml file (_taskman.yml.dist or taskman.yml_).
-Commands can reference each-other, allowing for complex scenarios to be implemented with relative ease.
+Taskman allows you to expose new commands using a YAML file (_taskman.yml.dist or taskman.yml_).
+Commands can reference each other, allowing for complex scenarios to be implemented with relative ease.
 
 * Create a file `taskman.yml` or `taskman.yml.dist` in your project, and start adding commands:
 
@@ -149,8 +148,7 @@ commands:
 
 Taskman will automatically look into your package dependencies for such files automatically.
 
-This means that you can create custom packagist packages containing your `taskman.yml` file with your custom commands,
-this will work.
+This means that you can create custom packagist packages containing your `taskman.yml` file with your custom commands.
 
 ### Advanced custom commands
 
@@ -166,10 +164,10 @@ commands:
     tasks:
       - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
     # Add preconditions that are going to be evaluated before running the command.
-    # If one of these preconditions does not returns 0, the command is not runned. 
+    # If one of these preconditions does not return 0, the command is not run.
     preconditions:
       - test -f .env
-    # ...and option definitions are under 'options' key.
+    # ...and option definitions are under the 'options' key.
     options:
       # The option name, without the leading double dash ('--').
       webdriver-url:
@@ -196,6 +194,29 @@ commands:
         # Optional. A default value when an optional option is not present in
         # the input.
         default: null
+```
+
+### Define global command options
+
+You can define global options that can be applied to any command.
+
+```yaml
+globals:
+    options:
+        env:
+            description: Environment
+            default: dev
+
+commands:
+    test:command:
+        tasks:
+            - echo "Running on environment ${options.env}"
+```
+
+Now you can run the command and change the value of the command option dynamically:
+
+```bash
+./bin/console test:command --env=prod
 ```
 
 ## Contributing

@@ -14,7 +14,6 @@ use Robo\Application;
 use Robo\Config\Config;
 use Robo\Robo;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -28,26 +27,18 @@ final class Taskman
     /**
      * Create default configuration.
      *
-     * @param null|mixed $workingDir
      * @param mixed $paths
      *
      * @return \Consolidation\Config\ConfigInterface
      */
-    public static function createConfiguration($paths, $workingDir = null)
+    public static function createConfiguration($paths)
     {
-        $workingDir = $workingDir ?? getcwd();
-
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
-        // Set the variable working_dir.
-        if (false === $workingDir = realpath($workingDir)) {
-            return $config;
+        if (false !== $cwd = getcwd()) {
+            $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($cwd);
         }
-
-        $config->set('taskman.working_dir', $workingDir);
-
-        $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($workingDir);
 
         // Load the configuration.
         Robo::loadConfiguration(
@@ -96,22 +87,6 @@ final class Taskman
 
         $app = Robo::createDefaultApplication($appName, $appVersion);
 
-        if (null === $workingDir || false === $workingDir = realpath($workingDir)) {
-            $workingDir = getcwd();
-        }
-
-        $app
-            ->getDefinition()
-            ->addOption(
-                new InputOption(
-                    '--working-dir',
-                    null,
-                    InputOption::VALUE_REQUIRED,
-                    'Working directory, defaults to current working directory.',
-                    $workingDir
-                )
-            );
-
         $app->setAutoExit(false);
 
         return $app;
@@ -120,10 +95,26 @@ final class Taskman
     /**
      * @param ContainerInterface $container
      *
+     * @throws \Exception
+     *
      * @return \Robo\Runner
      */
     public static function createDefaultRunner(ContainerInterface $container)
     {
+        $cwd = getcwd();
+
+        $workingDir = $container->get('input')->getParameterOption('--working-dir', $cwd);
+
+        if (null === $workingDir) {
+            $workingDir = $cwd;
+        }
+
+        if (false === realpath($workingDir)) {
+            throw new \Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
+        }
+
+        chdir($workingDir);
+
         return (new \Robo\Runner())
             ->setRelativePluginNamespace('Robo\Plugin')
             ->setContainer($container);

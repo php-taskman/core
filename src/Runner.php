@@ -342,7 +342,7 @@ final class Runner
             $optionDefinition += [
                 'mode' => InputOption::VALUE_OPTIONAL,
                 'description' => '',
-                'shortcut' => []
+                'shortcut' => [],
             ];
 
             $optionDefinition['shortcut'] = (array) $optionDefinition['shortcut'];

@@ -1,6 +1,9 @@
 globals:
     options:
         foo:
+            shortcut:
+                - a
+                - b
             description: foo description
             default: This is the global foo option value.
 

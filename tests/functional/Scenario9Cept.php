@@ -10,6 +10,7 @@ $I->runShellCommand('composer install -n --no-progress --no-scripts --no-dev --n
 
 $I->runShellCommand('../../../_output/vendor/bin/taskman');
 $I->canSeeInShellOutput('--foo[=FOO]');
+$I->canSeeInShellOutput('-a|b');
 $I->canSeeInShellOutput('[default: "This is the global foo option value."]');
 
 $I->runShellCommand('../../../_output/vendor/bin/taskman test:foo');

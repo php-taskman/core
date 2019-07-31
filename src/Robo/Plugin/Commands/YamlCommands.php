@@ -117,6 +117,16 @@ final class YamlCommands extends AbstractCommands
 
         $command = $this->getConfig()->get('commands.' . $command);
 
+        // Handle local environment variables.
+        $command += [
+            'env' => [],
+        ];
+
+        foreach ($command['env'] as $name => $value) {
+            $_ENV[$name] = $value;
+            putenv(sprintf('%s=%s', $name, $value));
+        }
+
         // Handle different types of command definitions.
         if (isset($command['tasks'])) {
             $arguments = [

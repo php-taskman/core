@@ -2,9 +2,14 @@ env:
     FOO: BAR
 
 commands:
-    foo:bar:
+    test:global-env:
         preconditions: test $FOO = BAR
         tasks:
-            - env
-            - echo $FOO
             - echo "FOO === BAR"
+            - echo $LOCAL
+    test:local-env:
+        env:
+            LOCAL: LOCAL is a local environment variable
+        tasks:
+            - echo "FOO === BAR"
+            - echo $LOCAL

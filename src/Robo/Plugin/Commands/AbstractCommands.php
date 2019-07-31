@@ -60,6 +60,7 @@ abstract class AbstractCommands implements
      */
     public function loadDefaultConfig(ConsoleCommandEvent $event): void
     {
+        /** @var \Robo\Config\Config $config */
         $config = $this->getConfig();
 
         if (null === $config->get('taskman.bin_dir')) {
@@ -79,10 +80,12 @@ abstract class AbstractCommands implements
             }
         }
 
-        // Refactor this.
-        $configurationFilePath = realpath($this->getConfigurationFile());
-
-        Robo::loadConfiguration([$configurationFilePath], $config);
+        Robo::loadConfiguration(
+            array_filter([
+                realpath($this->getConfigurationFile()),
+            ]),
+            $config
+        );
 
         $default_config = Taskman::createConfiguration(
             [$this->getDefaultConfigurationFile()]

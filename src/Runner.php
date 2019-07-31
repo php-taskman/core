@@ -14,6 +14,7 @@ use Robo\Application;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Tasks;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -167,7 +168,11 @@ final class Runner
      */
     private function registerDynamicCommands(Application $application): void
     {
-        $commandDefinitions = $this->getConfig()->get('commands', []);
+        $commandDefinitions = $this->getConfig()->get('commands', null);
+
+        if (null === $commandDefinitions) {
+            return;
+        }
 
         foreach ($commandDefinitions as $name => $commandDefinition) {
             /** @var \PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands $commandClass */
@@ -260,10 +265,11 @@ final class Runner
             if (!$class->isInstantiable()) {
                 continue;
             }
+
             $tasks[] = $class;
         }
 
-        $builder = CollectionBuilder::create($this->container, '');
+        $builder = CollectionBuilder::create($this->container, new Tasks());
 
         $inflector = $this->container->inflector(BuilderAwareInterface::class);
 
@@ -280,7 +286,11 @@ final class Runner
         }
 
         // Register custom YAML tasks.
-        $customTasks = $this->getConfig()->get('tasks', []);
+        $customTasks = $this->getConfig()->get('tasks', null);
+
+        if (null === $customTasks) {
+            return;
+        }
 
         foreach ($customTasks as $name => $tasks) {
             $this->container->add(

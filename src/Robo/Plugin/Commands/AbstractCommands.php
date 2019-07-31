@@ -68,7 +68,13 @@ abstract class AbstractCommands implements
                 // The COMPOSER_BIN_DIR environment takes precedence over the value
                 // defined in composer.json config, if any. Default to ./vendor/bin.
                 if (!$composerBinDir = getenv('COMPOSER_BIN_DIR')) {
-                    $composerBinDir = $composerConfig->get('bin-dir', './vendor/bin');
+                    $defaultDir = './vendor/bin';
+
+                    if ('phptaskman/core' === $composerConfig->get('name', '')) {
+                        $defaultDir = './bin';
+                    }
+
+                    $composerBinDir = $composerConfig->get('config.bin-dir', $defaultDir);
                 }
 
                 if (false === mb_strpos($composerBinDir, './')) {
@@ -79,6 +85,8 @@ abstract class AbstractCommands implements
                 $config->set('options.bin_dir', $composerBinDir);
             }
         }
+
+        $config->set('options.bin', realpath($config->get('options.bin_dir') . \DIRECTORY_SEPARATOR . 'taskman'));
 
         Robo::loadConfiguration(
             array_filter([

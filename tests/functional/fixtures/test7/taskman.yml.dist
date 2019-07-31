@@ -1,5 +1,9 @@
-taskman:
-    bin_dir: ../../../../tests/_output/vendor/bin
+globals:
+    options:
+        bin:
+            mode: 2
+            description: The Taskman binary
+            default: ../../../../tests/_output/vendor/bin/taskman
 
 tasks:
     baz:

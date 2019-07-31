@@ -9,5 +9,7 @@ globals:
             description: Working directory, defaults to current working directory.
             default: .
 
-options:
-    bin_dir: vendor/bin
+        bin:
+            mode: 2
+            description: The Taskman binary
+            default: bin/taskman

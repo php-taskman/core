@@ -1,6 +1,7 @@
 <?php
 
-//[STAMP] c9e8bd50d1ea65456f2268428d7df23f
+declare(strict_types = 1);
+//[STAMP] 81e2b5b2bfefbe97b23c579921aa2346
 
 namespace _generated;
 
@@ -30,6 +31,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks the strict matching of file contents.
      * Unlike `seeInThisFile` will fail if file has something more than expected lines.
      * Better to use with HEREDOC strings.
@@ -43,7 +45,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param string $text
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::seeFileContentsEqual()
      */
@@ -55,6 +56,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks if file exists in path.
      * Opens a file when it's exists
      *
@@ -66,7 +68,6 @@ trait AcceptanceTesterActions
      *
      * @param string $filename
      * @param string $path
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::seeFileFound()
      */
@@ -78,10 +79,10 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks that output from last executed command contains text
      *
      * @param $text
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Cli::seeInShellOutput()
      */
@@ -93,6 +94,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks If opened file has `text` in it.
      *
      * Usage:
@@ -105,7 +107,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param string $text
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::seeInThisFile()
      */
@@ -117,6 +118,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks If opened file has the `number` of new lines.
      *
      * Usage:
@@ -129,7 +131,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param int $number New lines
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::seeNumberNewLines()
      */
@@ -141,6 +142,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks result code
      *
      * ```php
@@ -149,7 +151,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param $code
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Cli::seeResultCodeIs()
      */
@@ -161,6 +162,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks result code
      *
      * ```php
@@ -169,7 +171,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param $code
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Cli::seeResultCodeIsNot()
      */
@@ -181,8 +182,9 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
+     *
      * @param $regex
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Cli::seeShellOutputMatches()
      */
@@ -194,10 +196,10 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks that contents of currently opened file matches $regex
      *
      * @param string $regex
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::seeThisFileMatches()
      */
@@ -209,11 +211,11 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks if file does not exist in path
      *
      * @param string $filename
      * @param string $path
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::dontSeeFileFound()
      */
@@ -225,11 +227,10 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks that output from latest command doesn't contain text
      *
      * @param $text
-     *
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Cli::dontSeeInShellOutput()
      */
@@ -241,6 +242,7 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * [!] Conditional Assertion: Test won't be stopped on fail
      * Checks If opened file doesn't contain `text` in it
      *
      * ``` php
@@ -251,7 +253,6 @@ trait AcceptanceTesterActions
      * ```
      *
      * @param string $text
-     * Conditional Assertion: Test won't be stopped on fail
      *
      * @see \Codeception\Module\Filesystem::dontSeeInThisFile()
      */
@@ -352,6 +353,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('deleteThisFile', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -364,8 +366,9 @@ trait AcceptanceTesterActions
      */
     public function dontSeeFileFound($filename, $path = null)
     {
-        return $this->getScenario()->runStep(new \Codeception\Step\Assertion('dontSeeFileFound', \func_get_args()));
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('dontSeeFileFound', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -377,8 +380,9 @@ trait AcceptanceTesterActions
      */
     public function dontSeeInShellOutput($text)
     {
-        return $this->getScenario()->runStep(new \Codeception\Step\Assertion('dontSeeInShellOutput', \func_get_args()));
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('dontSeeInShellOutput', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -397,7 +401,7 @@ trait AcceptanceTesterActions
      */
     public function dontSeeInThisFile($text)
     {
-        return $this->getScenario()->runStep(new \Codeception\Step\Assertion('dontSeeInThisFile', \func_get_args()));
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('dontSeeInThisFile', \func_get_args()));
     }
 
     /**
@@ -446,6 +450,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('runShellCommand', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -469,6 +474,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeFileContentsEqual', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -490,6 +496,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeFileFound', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -503,6 +510,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeInShellOutput', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -525,6 +533,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeInThisFile', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -547,6 +556,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeNumberNewLines', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -565,6 +575,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeResultCodeIs', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -583,6 +594,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeResultCodeIsNot', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -594,6 +606,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Assertion('seeShellOutputMatches', \func_get_args()));
     }
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -622,6 +635,7 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('writeToFile', \func_get_args()));
     }
+
     /**
      * @return \Codeception\Scenario
      */

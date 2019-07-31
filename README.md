@@ -1,25 +1,60 @@
-[![Latest Stable Version](https://poser.pugx.org/phptaskman/core/v/stable)](https://packagist.org/packages/phptaskman/core)
- [![Total Downloads](https://poser.pugx.org/phptaskman/core/downloads)](https://packagist.org/packages/phptaskman/core)
- [![Build Status](https://travis-ci.org/php-taskman/core.svg?branch=master)](https://travis-ci.org/php-taskman/core)
- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-taskman/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![Code Coverage](https://scrutinizer-ci.com/g/php-taskman/core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
- [![License](https://poser.pugx.org/phptaskman/core/license)](https://packagist.org/packages/phptaskman/core)
+[![Latest Stable Version](https://img.shields.io/packagist/v/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+ [![GitHub stars](https://img.shields.io/github/stars/php-taskman/core.svg?style=flat-square)](https://packagist.org/packages/php-taskman/core)
+ [![Total Downloads](https://img.shields.io/packagist/dt/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/php-taskman/core)
+ [![Build Status](https://img.shields.io/travis/php-taskman/core/master.svg?style=flat-square)](https://travis-ci.org/php-taskman/core)
+ [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/php-taskman/core/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/php-taskman/core/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-taskman/core/?branch=master)
+ [![License](https://img.shields.io/packagist/l/phptaskman/core.svg?style=flat-square)](https://packagist.org/packages/phptaskman/core)
+ [![Say Thanks!](https://img.shields.io/badge/Say-thanks-brightgreen.svg?style=flat-square)](https://saythanks.io/to/drupol)
+ [![Donate!](https://img.shields.io/badge/Donate-Paypal-brightgreen.svg?style=flat-square)](https://paypal.me/drupol)
 
 # PHP Taskman
 
 ## Description
 
-This library is a helper for running pre-defined customizable commands and tasks.
+Taskman is a helper for running commands and tasks. It is shipped with a few simple default tasks.
 
-It is shipped with a few simple commands, just the bare minimum.
+It will help you in your every day life of setting up recurring tasks that you have to run in your projects.
+
+Taskman is based on [Robo](https://robo.li/) and not tied to any framework or whatsoever.
 
 ## Requirements
 
-* PHP >= 7.1
+* PHP >= 5.6
 
 ## Installation
 
 ```composer require phptaskman/core```
+
+## Configuration
+
+Taskman can be customized in different ways:
+
+1. By setting arguments and options when running a command.
+2. By providing default values in configuration files. Taskman will read
+   the following files in the specified order. Options supplied in later files
+   will override earlier ones:
+    * The defaults provided by Taskman. This file is located inside the Taskman
+       repository in `config/default.yml`.
+    * `taskman.yml.dist` - project specific defaults. This file should be placed
+      in the root folder of the project that depends on Taskman. Use
+      this file to declare default options which are expected to work with your
+      application under regular circumstances. This file should be committed in
+      the project.
+    * `taskman.yml` - project specific user overrides. This file is also located
+      in the root folder of the project that depends on Taskman. This
+      file can be used to override options with values that are specific to the
+      user's local environment. It is considered good practice to add this file
+      to `.gitignore` to prevent it from being accidentally committed in the
+      project repository.
+    * User provided global overrides stored in environment variables. These can
+      be used to define environment specific configuration that applies to all
+      projects that uses Taskman, such as database credentials and the
+      Github access token. The following locations will be checked and the first
+      one that is found will be used:
+        * `$PHPTASKMAN_CONFIG`
+        * `$XDG_CONFIG_HOME/phptaskman/taskman.yml`
+        * `$HOME/.config/phptaskman/taskman.yml`
 
 ## Optional packages
 
@@ -28,6 +63,9 @@ Provides commands for your Drupal environment.
 
 * [phptaskman/package](https://github.com/php-taskman/package)
 Provide commands for generating packages out of your sources.
+
+* [phptaskman/travis](https://github.com/php-taskman/travis)
+Provide commands to execute parts of your `.travis.yml` file.
 
 ## Usage
 
@@ -43,7 +81,58 @@ Then run a command:
 
 ## Documentation
 
-### Custom commands
+The documentation is not up to date, this is a never ending work in progress.
+
+Taskman will run commands. Commands contains one or multiple tasks.
+
+Commands or tasks can be defined using YAML or through code.
+
+An example of custom command with some tasks in a `taskman.yml.dist` file:
+
+```yaml
+commands:
+  foo:foo:
+    - ls -la
+    - { task: "mkdir", dir: "foo" }
+    - ls -la
+    - { task: "run", command: "foo:remove" }
+  foo:remove:
+    - rm -rf foo
+    - ls -la
+```
+
+As you can see, there are 2 custom commands that are defined: `foo:foo` and `foo:remove`.
+
+Those commands contains tasks, 4 tasks for `foo:foo` and 2 tasks for `foo:remove`.
+
+A task can be either a string or a well structured array.
+
+### Expose custom tasks in YAML
+
+Let's use the same example and add a custom task in the YAML file.
+
+```yaml
+tasks:
+  baz:
+    - ls -la
+
+commands:
+  foo:foo:
+    - ls -la
+    - { task: "mkdir", dir: "foo" }
+    - ls -la
+    - { task: "run", command: "foo:remove" }
+  foo:remove:
+    - rm -rf foo
+    - { task: "baz" }
+```
+
+There are a few tasks that are supported by default in Taskman and provided by [the phptaskman/core-tasks package](https://packagist.org/packages/phptaskman/core-tasks).
+
+### Expose custom commands in YAML
+
+Taskman allows you to expose new commands using a YAML file (_taskman.yml.dist or taskman.yml_).
+Commands can reference each other, allowing for complex scenarios to be implemented with relative ease.
 
 * Create a file `taskman.yml` or `taskman.yml.dist` in your project, and start adding commands:
 
@@ -52,14 +141,14 @@ commands:
   hello-world:
     - echo "Hello"
     - echo "world !"
+    - { task: "mkdir", dir: "foo" }
   datetime:
     - date -u
 ```
 
 Taskman will automatically look into your package dependencies for such files automatically.
 
-This means that you can create custom packagist packages containing your `taskman.yml` file with your custom commands,
-this will work.
+This means that you can create custom packagist packages containing your `taskman.yml` file with your custom commands.
 
 ### Advanced custom commands
 
@@ -68,11 +157,17 @@ You can define also command options along with a custom command.
 ```yaml
 commands:
   setup:behat:
+    description: Write a short description of your task here.
+    help: Write a short help text here.
     # When you need to define command options, the list of tasks should be
     # placed under the 'tasks' key...
     tasks:
       - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
-    # ...and option definitions are under 'options' key.
+    # Add preconditions that are going to be evaluated before running the command.
+    # If one of these preconditions does not return 0, the command is not run.
+    preconditions:
+      - test -f .env
+    # ...and option definitions are under the 'options' key.
     options:
       # The option name, without the leading double dash ('--').
       webdriver-url:
@@ -99,6 +194,29 @@ commands:
         # Optional. A default value when an optional option is not present in
         # the input.
         default: null
+```
+
+### Define global command options
+
+You can define global options that can be applied to any command.
+
+```yaml
+globals:
+    options:
+        env:
+            description: Environment
+            default: dev
+
+commands:
+    test:command:
+        tasks:
+            - echo "Running on environment ${options.env}"
+```
+
+Now you can run the command and change the value of the command option dynamically:
+
+```bash
+./bin/console test:command --env=prod
 ```
 
 ## Contributing

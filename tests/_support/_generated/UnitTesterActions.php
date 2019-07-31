@@ -1,6 +1,7 @@
 <?php
 
-//[STAMP] 5e4c7302c0b63a4df799dc88da465f39
+declare(strict_types = 1);
+//[STAMP] 0d80c182225e121a87bcf67b371bb330
 
 namespace _generated;
 
@@ -38,23 +39,6 @@ trait UnitTesterActions
     public function assertArrayNotHasKey($key, $actual, $description = null)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArrayNotHasKey', \func_get_args()));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Checks that array contains subset.
-     *
-     * @param array  $subset
-     * @param array  $array
-     * @param bool   $strict
-     * @param string $message
-     *
-     * @see \Codeception\Module\Asserts::assertArraySubset()
-     */
-    public function assertArraySubset($subset, $array, $strict = null, $message = null)
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArraySubset', \func_get_args()));
     }
 
     /**
@@ -105,21 +89,7 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
-     * Checks that two variables are equal. If you're comparing floating-point values,
-     * you can specify the optional "delta" parameter which dictates how great of a precision
-     * error are you willing to tolerate in order to consider the two values equal.
-     *
-     * Regular example:
-     * ```php
-     * <?php
-     * $I->assertEquals(5, $element->getChildrenCount());
-     * ```
-     *
-     * Floating-point example:
-     * ```php
-     * <?php
-     * $I->assertEquals(0.3, $calculator->add(0.1, 0.2), 'Calculator should add the two numbers correctly.', 0.01);
-     * ```
+     * Checks that two variables are equal.
      *
      * @param        $expected
      * @param        $actual
@@ -255,6 +225,45 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * @see \Codeception\Module\Asserts::assertIsArray()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsArray($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsArray', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsBool()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsBool($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsBool', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsCallable()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsCallable($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsCallable', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
      * @param $actual
      * @param $description
      *
@@ -263,6 +272,227 @@ trait UnitTesterActions
     public function assertIsEmpty($actual, $description = null)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsEmpty', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsFloat()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsFloat($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsFloat', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsInt()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsInt($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsInt', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotArray()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotArray($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotArray', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotBool()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotBool($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotBool', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotCallable()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotCallable($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotCallable', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotFloat()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotFloat($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotFloat', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotInt()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotInt($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotInt', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotNumeric()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotNumeric($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotNumeric', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotObject()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotObject($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotObject', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotResource()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotResource($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotResource', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotScalar()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotScalar($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotScalar', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNotString()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNotString($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotString', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsNumeric()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsNumeric($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNumeric', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsObject()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsObject($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsObject', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsResource()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsResource($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsResource', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsScalar()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsScalar($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsScalar', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertIsString()
+     *
+     * @param mixed $actual
+     * @param null|mixed $message
+     */
+    public function assertIsString($actual, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsString', \func_get_args()));
     }
 
     /**
@@ -345,21 +575,7 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
-     * Checks that two variables are not equal. If you're comparing floating-point values,
-     * you can specify the optional "delta" parameter which dictates how great of a precision
-     * error are you willing to tolerate in order to consider the two values not equal.
-     *
-     * Regular example:
-     * ```php
-     * <?php
-     * $I->assertNotEquals(0, $element->getChildrenCount());
-     * ```
-     *
-     * Floating-point example:
-     * ```php
-     * <?php
-     * $I->assertNotEquals(0.4, $calculator->add(0.1, 0.2), 'Calculator should add the two numbers correctly.', 0.01);
-     * ```
+     * Checks that two variables are not equal
      *
      * @param        $expected
      * @param        $actual
@@ -514,6 +730,62 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * @see \Codeception\Module\Asserts::assertStringContainsString()
+     *
+     * @param mixed $needle
+     * @param mixed $haystack
+     * @param null|mixed $message
+     */
+    public function assertStringContainsString($needle, $haystack, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsString', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertStringContainsStringIgnoringCase()
+     *
+     * @param mixed $needle
+     * @param mixed $haystack
+     * @param null|mixed $message
+     */
+    public function assertStringContainsStringIgnoringCase($needle, $haystack, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsStringIgnoringCase', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertStringNotContainsString()
+     *
+     * @param mixed $needle
+     * @param mixed $haystack
+     * @param null|mixed $message
+     */
+    public function assertStringNotContainsString($needle, $haystack, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsString', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @see \Codeception\Module\Asserts::assertStringNotContainsStringIgnoringCase()
+     *
+     * @param mixed $needle
+     * @param mixed $haystack
+     * @param null|mixed $message
+     */
+    public function assertStringNotContainsStringIgnoringCase($needle, $haystack, $message = null)
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsStringIgnoringCase', \func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
      * Checks that a string doesn't start with the given prefix.
      *
      * @param string $prefix
@@ -586,7 +858,6 @@ trait UnitTesterActions
      * @param $exception string or \Exception
      * @param $callback
      *
-     * @deprecated Use expectThrowable instead
      * @see \Codeception\Module\Asserts::expectException()
      */
     public function expectException($exception, $callback)
@@ -642,6 +913,7 @@ trait UnitTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('fail', \func_get_args()));
     }
+
     /**
      * @return \Codeception\Scenario
      */

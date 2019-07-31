@@ -16,6 +16,7 @@ use Robo\Tasks;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -63,6 +64,8 @@ final class Runner
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param ClassLoader $classLoader
+     *
+     * @throws \Exception
      */
     public function __construct(
         InputInterface $input = null,
@@ -73,17 +76,12 @@ final class Runner
         $this->output = null === $output ? new ConsoleOutput() : $output;
         $this->classLoader = null === $classLoader ? new ClassLoader() : $classLoader;
 
-        \chdir($this->input->getParameterOption('--working-dir', \getcwd()));
-
         $this->config = Taskman::createConfiguration(
-            [],
-            $this->workingDir
+            []
         );
-        $this->application = Taskman::createDefaultApplication(
-            null,
-            null,
-            $this->workingDir
-        );
+
+        $this->application = Taskman::createDefaultApplication();
+
         $this->container = Taskman::createContainer(
             $this->input,
             $this->output,
@@ -112,6 +110,9 @@ final class Runner
 
         // Register tasks
         $this->registerDynamicTasks($this->application);
+
+        // Register global options.
+        $this->registerGlobalCommandOptions($this->application);
 
         // Run command.
         return $this->runner->run($this->input, $this->output, $this->application);
@@ -289,6 +290,66 @@ final class Runner
                 'task.' . $name,
                 YamlTask::class
             )->withArgument($tasks);
+        }
+    }
+
+    /**
+     * Register the global commands options.
+     *
+     * @param \Robo\Application $application
+     */
+    private function registerGlobalCommandOptions(Application $application)
+    {
+        $globalOptions = $this->config->get('globals.options', null);
+
+        if (null === $globalOptions) {
+            return;
+        }
+
+        $config = $this->getConfig();
+
+        foreach ($globalOptions as $option => $optionDefinition) {
+            $optionMachineName = 'options.' . ($optionDefinition['config'] ?? $option);
+
+            $optionDefinition += [
+                'default' => null,
+            ];
+
+            $optionDefinition['default'] = $this->input->getParameterOption(
+                '--' . $option,
+                $optionDefinition['default']
+            );
+
+            // Special handling for the working-dir option.
+            if ('working-dir' === $option) {
+                if (null === $optionDefinition['default']) {
+                    $optionDefinition['default'] = getcwd();
+                }
+
+                $optionDefinition['default'] = realpath($optionDefinition['default']);
+            }
+
+            $config->set($optionMachineName, $optionDefinition['default']);
+
+            $optionDefinition += [
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => '',
+                'shortcut' => [],
+            ];
+
+            $optionDefinition['shortcut'] = (array) $optionDefinition['shortcut'];
+
+            $application
+                ->getDefinition()
+                ->addOption(
+                    new InputOption(
+                        '--' . $option,
+                        $optionDefinition['shortcut'],
+                        $optionDefinition['mode'],
+                        $optionDefinition['description'],
+                        $optionDefinition['default']
+                    )
+                );
         }
     }
 }

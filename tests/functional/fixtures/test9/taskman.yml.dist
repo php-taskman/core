@@ -1,0 +1,16 @@
+globals:
+    options:
+        foo:
+            shortcut:
+                - a
+                - b
+            description: foo description
+            default: This is the global foo option value.
+
+commands:
+    test:foo:
+        tasks:
+            - echo ${options.foo}
+    test:wd:
+        tasks:
+            - echo ${options.working_dir}

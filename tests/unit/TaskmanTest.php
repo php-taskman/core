@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace PhpTaskman\Core\Tests\unit;
 
 use Codeception\Test\Unit;
+use PhpTaskman\Core\Runner;
 use PhpTaskman\Core\Taskman;
 use Robo\Application;
 use Symfony\Component\Console\Input\StringInput;
@@ -20,18 +23,12 @@ final class TaskmanTest extends Unit
      */
     protected $tester;
 
-    public function testCreateConfiguration()
+    public function testCreateConfiguration(): void
     {
-        $cwd = __DIR__ . '/../../';
-
         $configuration = Taskman::createConfiguration([]);
-        $this::assertSame(\realpath($cwd), $configuration->get('taskman.working_dir'));
-
-        $configuration = Taskman::createConfiguration([], $cwd . '/foo');
-        $this::assertNull($configuration->get('taskman.working_dir'));
     }
 
-    public function testCreateContainer()
+    public function testCreateContainer(): void
     {
         $config = Taskman::createConfiguration([]);
         $classLoader = require __DIR__ . '/../_output/vendor/autoload.php';
@@ -45,7 +42,7 @@ final class TaskmanTest extends Unit
         );
     }
 
-    public function testCreateDefaultApplication()
+    public function testCreateDefaultApplication(): void
     {
         $app = Taskman::createDefaultApplication();
 
@@ -54,7 +51,7 @@ final class TaskmanTest extends Unit
         $this::assertSame('Taskman', $app->getName());
     }
 
-    public function testCreateDefaultRunner()
+    public function testCreateDefaultRunner(): void
     {
         $classLoader = require __DIR__ . '/../_output/vendor/autoload.php';
         $config = Taskman::createConfiguration([]);
@@ -67,7 +64,7 @@ final class TaskmanTest extends Unit
             $classLoader
         );
 
-        $runner = new \PhpTaskman\Core\Runner(
+        $runner = new Runner(
             new StringInput(''),
             new BufferedOutput(),
             $classLoader

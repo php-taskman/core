@@ -232,13 +232,13 @@ env:
     FOO: This is the value of the FOO environment variable
 
 commands:
-    test:command:
+    test:global-env:
         tasks:
             - echo $FOO
 ```
 
 ```bash
-./bin/taskman test:command
+./bin/taskman test:global-env
 ```
 
 Will output:
@@ -247,6 +247,24 @@ Will output:
 [Exec] Running echo $FOO
   This is the value of the FOO environment variable
 [Exec] Done in 0.003s
+```
+
+You can also create _local_ environment variables that are going to be available only in the scope of command as such:
+
+```yaml
+env:
+    FOO: This is the value of the FOO environment variable
+
+commands:
+    test:global-env:
+        tasks:
+            - echo $FOO
+
+    test:local-env:
+        env:
+            BAR: bar
+        tasks:
+            - echo $BAR
 ```
 
 ## Contributing

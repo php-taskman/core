@@ -309,7 +309,7 @@ final class Runner
      */
     private function registerEnvVariables(Application $application): void
     {
-        $envVariables = $this->config->get('env', null) ?? [];
+        $envVariables = $this->config->get('globals.env', null) ?? [];
 
         foreach ($envVariables as $name => $value) {
             $_ENV[$name] = $value;

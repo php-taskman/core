@@ -1,5 +1,6 @@
-env:
-    FOO: BAR
+globals:
+    env:
+        FOO: BAR
 
 commands:
     test:global-env:

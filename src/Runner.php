@@ -124,19 +124,6 @@ final class Runner
     }
 
     /**
-     * @param \Robo\Application $application
-     */
-    private function registerEnvVariables(Application $application): void
-    {
-        $envVariables = $this->config->get('env', null) ?? [];
-
-        foreach ($envVariables as $name => $value) {
-            $_ENV[$name] = $value;
-            putenv(sprintf('%s=%s', $name, $value));
-        }
-    }
-
-    /**
      * @param bool $hasDefault
      * @param mixed $defaultValue
      *
@@ -314,6 +301,19 @@ final class Runner
                 'task.' . $name,
                 YamlTask::class
             )->withArgument($tasks);
+        }
+    }
+
+    /**
+     * @param \Robo\Application $application
+     */
+    private function registerEnvVariables(Application $application): void
+    {
+        $envVariables = $this->config->get('env', null) ?? [];
+
+        foreach ($envVariables as $name => $value) {
+            $_ENV[$name] = $value;
+            putenv(sprintf('%s=%s', $name, $value));
         }
     }
 

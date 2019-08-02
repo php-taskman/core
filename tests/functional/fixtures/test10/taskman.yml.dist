@@ -1,0 +1,19 @@
+global:
+    options:
+        baz:
+            mode: 2
+            default: baz baz baz
+
+commands:
+    foo:
+        description: foo command
+        tasks:
+            - echo 'This should be displayed only if verbose is true'
+        preconditions:
+            - (verbose === true)
+    bar:
+        description: bar command
+        tasks:
+            - echo 'This should be displayed only if verbose is false'
+        preconditions:
+            - (verbose === false)

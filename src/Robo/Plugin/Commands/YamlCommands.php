@@ -10,6 +10,8 @@ use Robo\Collection\CollectionBuilder;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
  * Class DynamicCommands.
@@ -129,15 +131,7 @@ final class YamlCommands extends AbstractCommands
                 $arguments['preconditions'] = [$arguments['preconditions']];
             }
 
-            /** @var CollectionFactoryTask $preconditionsTask */
-            $preconditionsTask = $this->task(CollectionFactoryTask::class);
-            $preconditionsTask->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_DEBUG);
-            $preconditionsTask->setTaskArguments([
-                'tasks' => $arguments['preconditions'],
-                'options' => [],
-            ]);
-
-            if (false === $preconditionsTask->run()->wasSuccessful()) {
+            if (false === $this->runPreconditions($arguments['preconditions'])) {
                 $arguments['tasks'] = [];
             }
         } else {
@@ -151,5 +145,39 @@ final class YamlCommands extends AbstractCommands
         $collectionFactory = $this->task(CollectionFactoryTask::class);
 
         return $collectionFactory->setTaskArguments($arguments);
+    }
+
+    private function runPreconditions(array $preconditions): bool
+    {
+        if (!\count($preconditions)) {
+            return true;
+        }
+
+        foreach ($preconditions as $key => $precondition) {
+            if (preg_match('/^\((.*)\)$/', $precondition, $matches)) {
+                $expressionLanguage = new ExpressionLanguage();
+
+                try {
+                    $result = $expressionLanguage->evaluate($matches[1], $this->input()->getOptions());
+                } catch (SyntaxError $ex) {
+                    $result = false;
+                }
+
+                if (false === $result) {
+                    return false;
+                }
+                unset($preconditions[$key]);
+            }
+        }
+
+        /** @var CollectionFactoryTask $preconditionsTask */
+        $preconditionsTask = $this->task(CollectionFactoryTask::class);
+        $preconditionsTask->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_DEBUG);
+        $preconditionsTask->setTaskArguments([
+            'tasks' => $preconditions,
+            'options' => [],
+        ]);
+
+        return $preconditionsTask->run()->wasSuccessful();
     }
 }

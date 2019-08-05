@@ -1,6 +1,3 @@
-taskman:
-    bin_dir: ../../../../tests/_output/vendor/bin
-
 tasks:
     baz:
         - echo "foo foo foo"

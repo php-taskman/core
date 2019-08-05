@@ -47,7 +47,11 @@ final class Taskman
         );
 
         [$scriptPath] = get_included_files();
-        $config->set('options.bin', $scriptPath);
+        $config->setDefault('options.bin', $scriptPath);
+
+        foreach (getenv() as $key => $value) {
+            $config->setDefault('globals.env.' . $key, $value);
+        }
 
         return $config;
     }

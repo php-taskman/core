@@ -11,3 +11,4 @@ globals:
 
 options:
     bin_dir: vendor/bin
+    bin: bin/taskman

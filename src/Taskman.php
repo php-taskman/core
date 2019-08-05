@@ -46,6 +46,9 @@ final class Taskman
             $config
         );
 
+        [$scriptPath] = get_included_files();
+        $config->set('options.bin', $scriptPath);
+
         return $config;
     }
 
@@ -112,8 +115,6 @@ final class Taskman
         if (false === realpath($workingDir)) {
             throw new \Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
         }
-
-        chdir($workingDir);
 
         return (new \Robo\Runner())
             ->setRelativePluginNamespace('Robo\Plugin')

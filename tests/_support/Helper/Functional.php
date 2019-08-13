@@ -22,7 +22,7 @@ class Functional extends Module
     {
         parent::_after($test);
 
-        \chdir($this->directory);
+        chdir($this->directory);
     }
 
     /**
@@ -31,6 +31,6 @@ class Functional extends Module
     public function _before(TestInterface $test)
     {
         parent::_before($test);
-        $this->directory = \getcwd();
+        $this->directory = getcwd();
     }
 }

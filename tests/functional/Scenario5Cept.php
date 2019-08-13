@@ -2,7 +2,7 @@
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('A task can run Robo tasks.');
-$I->amInPath(\realpath(__DIR__ . '/fixtures/test5'));
+$I->amInPath(realpath(__DIR__ . '/fixtures/test5'));
 
 $I->runShellCommand('composer install -n --no-progress --no-scripts --no-dev --no-suggest --no-ansi');
 

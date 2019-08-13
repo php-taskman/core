@@ -4,9 +4,9 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
+use League\Container\ContainerAwareTrait;
 use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
-use League\Container\ContainerAwareTrait;
 use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
 use Robo\Application;
 use Robo\Collection\CollectionBuilder;
@@ -129,6 +129,7 @@ final class Runner
         if (!$hasDefault) {
             return InputArgument::REQUIRED;
         }
+
         if (\is_array($defaultValue)) {
             return InputArgument::IS_ARRAY;
         }
@@ -147,7 +148,8 @@ final class Runner
             return;
         }
 
-        $defaults = \array_fill_keys(['shortcut', 'mode', 'description', 'default'], null);
+        $defaults = array_fill_keys(['shortcut', 'mode', 'description', 'default'], null);
+
         foreach ($commandDefinition['options'] as $optionName => $optionDefinition) {
             $optionDefinition += $defaults;
             $command->addOption(
@@ -181,6 +183,7 @@ final class Runner
             $commandInfo = $commandFactory->createCommandInfo($commandClass, 'runTasks');
 
             $commandDefinition += ['options' => []];
+
             foreach ($commandDefinition['options'] as &$option) {
                 if (isset($option['mode'])) {
                     continue;
@@ -254,8 +257,10 @@ final class Runner
 
         /** @var \ReflectionClass[] $tasks */
         $tasks = [];
+
         foreach ($classes as $className) {
             $class = new \ReflectionClass($className);
+
             if (!$class->isInstantiable()) {
                 continue;
             }
@@ -266,6 +271,7 @@ final class Runner
         $builder = CollectionBuilder::create($this->container, new Tasks());
 
         $inflector = $this->container->inflector(BuilderAwareInterface::class);
+
         if ($inflector instanceof Inflector) {
             $inflector->invokeMethod('setBuilder', [$builder]);
         }

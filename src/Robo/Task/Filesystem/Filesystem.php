@@ -15,16 +15,18 @@ final class Filesystem extends FilesystemStack
     use TaskAccessor;
 
     // phpcs:disable
+
     /**
      * {@inheritdoc}
      */
     protected function _copy($from, $to, $force = false)
     {
-        if (\is_dir($from)) {
+        if (is_dir($from)) {
             return $this->taskCopyDir([$from => $to])->run();
         }
 
         parent::_copy($from, $to, $force);
     }
+
     // phpcs:enable
 }

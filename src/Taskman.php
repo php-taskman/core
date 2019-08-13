@@ -169,6 +169,6 @@ final class Taskman
             $processor->extend($loader->load($path));
         }
 
-        $config->import($processor->export());
+        $config->replace($processor->export());
     }
 }

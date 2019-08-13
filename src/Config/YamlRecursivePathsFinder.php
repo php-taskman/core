@@ -20,7 +20,7 @@ final class YamlRecursivePathsFinder
     {
         $this->paths = [];
 
-        if (false !== $paths = \array_combine($paths, $paths)) {
+        if (false !== $paths = array_combine($paths, $paths)) {
             $this->paths = $paths;
         }
     }
@@ -41,7 +41,7 @@ final class YamlRecursivePathsFinder
     private function findPathRecursively(array $paths)
     {
         foreach ($paths as $path) {
-            if (!\file_exists($path)) {
+            if (!file_exists($path)) {
                 continue;
             }
 

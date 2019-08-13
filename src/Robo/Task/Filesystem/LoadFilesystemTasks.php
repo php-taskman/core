@@ -15,6 +15,6 @@ trait LoadFilesystemTasks
      */
     public function taskFilesystemFactory($task, $options)
     {
-        return $this->task(Filesystem::class)->{$task}(...\array_values($options));
+        return $this->task(Filesystem::class)->{$task}(...array_values($options));
     }
 }

@@ -2,7 +2,7 @@
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('Check if a complex command can be found and interpreted.');
-$I->amInPath(\realpath(__DIR__ . '/fixtures/test3'));
+$I->amInPath(realpath(__DIR__ . '/fixtures/test3'));
 
 $I->runShellCommand('composer install -n --no-progress --no-scripts --no-dev --no-suggest --no-ansi');
 

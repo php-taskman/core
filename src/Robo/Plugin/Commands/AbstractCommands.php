@@ -6,9 +6,9 @@ use Consolidation\Config\Loader\ConfigProcessor;
 use PhpTaskman\Core\Taskman;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Common\IO;
+use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
-use Robo\Contract\BuilderAwareInterface;
 use Robo\LoadAllTasks;
 use Robo\Robo;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -19,8 +19,8 @@ use Symfony\Component\EventDispatcher\Event;
  */
 abstract class AbstractCommands implements
     BuilderAwareInterface,
-    IOAwareInterface,
-    ConfigAwareInterface
+    ConfigAwareInterface,
+    IOAwareInterface
 {
     use ConfigAwareTrait;
     use IO;
@@ -53,6 +53,8 @@ abstract class AbstractCommands implements
      * it back.
      *
      * @hook pre-command-event *
+     *
+     * @param ConsoleCommandEvent $event
      */
     public function loadDefaultConfig(ConsoleCommandEvent $event)
     {
@@ -63,11 +65,11 @@ abstract class AbstractCommands implements
             if (null !== $composerConfig = Taskman::createJsonConfiguration([getcwd() . '/composer.json'])) {
                 // The COMPOSER_BIN_DIR environment takes precedence over the value
                 // defined in composer.json config, if any. Default to ./vendor/bin.
-                if (!$composerBinDir = \getenv('COMPOSER_BIN_DIR')) {
+                if (!$composerBinDir = getenv('COMPOSER_BIN_DIR')) {
                     $composerBinDir = $composerConfig->get('bin-dir', './vendor/bin');
                 }
 
-                if (false === \strpos($composerBinDir, './')) {
+                if (false === mb_strpos($composerBinDir, './')) {
                     $composerBinDir = './' . $composerBinDir;
                 }
 
@@ -93,6 +95,6 @@ abstract class AbstractCommands implements
         $processor->add($config->export());
 
         // Import newly built configuration.
-        $config->import($processor->export());
+        $config->replace($processor->export());
     }
 }

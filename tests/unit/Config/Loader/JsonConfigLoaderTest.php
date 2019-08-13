@@ -23,8 +23,8 @@ final class JsonConfigLoaderTest extends Unit
 
         $composerJson = __DIR__ . '/../../fixtures/Config/Loader/composer.json';
 
-        $composerJsonArray = \json_decode(
-            \file_get_contents($composerJson),
+        $composerJsonArray = json_decode(
+            file_get_contents($composerJson),
             true
         );
         $jsonConfigLoader->load($composerJson);

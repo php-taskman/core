@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 //[STAMP] e8faca17006cdaf94e9f42c3e062effd
 
 namespace _generated;

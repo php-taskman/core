@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('A task can run Robo tasks.');

@@ -13,7 +13,7 @@
         "php": ">= 5.6",
         "ext-json": "*",
         "consolidation/robo": "^1.4.10",
-        "phptaskman/core-tasks": "^1.1"
+        "phptaskman/core-tasks": "^0.1.9"
     },
     "require-dev": {
         "codeception/codeception": "^3",

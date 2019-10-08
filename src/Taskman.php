@@ -44,8 +44,8 @@ final class Taskman
             $config
         );
 
-        [$scriptPath] = get_included_files();
-        $config->set('options.bin', $scriptPath);
+        $scriptPaths = get_included_files();
+        $config->set('options.bin', $scriptPaths[0]);
 
         return $config;
     }

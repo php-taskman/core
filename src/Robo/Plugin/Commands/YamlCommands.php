@@ -11,15 +11,13 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Exception\TaskException;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
-/**
- * Class DynamicCommands.
- */
+use function get_class;
+use function is_string;
+
 final class YamlCommands extends AbstractCommands
 {
     /**
      * Bind input values of custom command options to config entries.
-     *
-     * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
      *
      * @hook pre-command-event *
      */
@@ -31,7 +29,7 @@ final class YamlCommands extends AbstractCommands
             return;
         }
 
-        if (AnnotatedCommand::class !== \get_class($command)) {
+        if (AnnotatedCommand::class !== get_class($command)) {
             return;
         }
 
@@ -96,14 +94,12 @@ final class YamlCommands extends AbstractCommands
      * @dynamic-command true
      *
      * @throws \Robo\Exception\TaskException
-     *
-     * @return \Robo\Collection\CollectionBuilder
      */
     public function runTasks(): CollectionBuilder
     {
         $command = $this->input()->getArgument('command');
 
-        if (!\is_string($command)) {
+        if (!is_string($command)) {
             throw new TaskException($this, 'The command must be a string.');
         }
 
@@ -125,7 +121,7 @@ final class YamlCommands extends AbstractCommands
                 'preconditions' => $command['preconditions'] ?? [],
             ];
 
-            if (\is_string($arguments['preconditions'])) {
+            if (is_string($arguments['preconditions'])) {
                 $arguments['preconditions'] = [$arguments['preconditions']];
             }
 

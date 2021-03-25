@@ -15,8 +15,6 @@ final class YamlRecursivePathsFinder
 
     /**
      * YamlRecursivePathsFinder constructor.
-     *
-     * @param array $paths
      */
     public function __construct(array $paths)
     {
@@ -37,9 +35,6 @@ final class YamlRecursivePathsFinder
         return $this->paths;
     }
 
-    /**
-     * @param array $paths
-     */
     private function findPathRecursively(array $paths): void
     {
         foreach ($paths as $path) {

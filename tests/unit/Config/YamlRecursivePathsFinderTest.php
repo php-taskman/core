@@ -6,6 +6,7 @@ namespace PhpTaskman\Core\Tests\unit\Config;
 
 use Codeception\Test\Unit;
 use PhpTaskman\Core\Config\YamlRecursivePathsFinder;
+use UnitTester;
 
 /**
  * @covers \PhpTaskman\Core\Config\YamlRecursivePathsFinder
@@ -15,7 +16,7 @@ use PhpTaskman\Core\Config\YamlRecursivePathsFinder;
 final class YamlRecursivePathsFinderTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
     protected $tester;
 

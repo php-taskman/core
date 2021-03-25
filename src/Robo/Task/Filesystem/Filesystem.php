@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace PhpTaskman\Core\Robo\Task\Filesystem;
 
 use Robo\Task\Filesystem\FilesystemStack;
-use Robo\Task\Filesystem\loadTasks;
+use Robo\Task\Filesystem\Tasks;
 use Robo\TaskAccessor;
 
-/**
- * Class Filesystem.
- */
 final class Filesystem extends FilesystemStack
 {
-    use loadTasks;
+    use Tasks;
     use TaskAccessor;
 
     // phpcs:disable

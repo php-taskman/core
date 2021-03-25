@@ -17,9 +17,6 @@ class Functional extends Module
      */
     private $directory;
 
-    /**
-     * @param \Codeception\TestInterface $test
-     */
     public function _after(TestInterface $test): void
     {
         parent::_after($test);
@@ -27,9 +24,6 @@ class Functional extends Module
         chdir($this->directory);
     }
 
-    /**
-     * @param \Codeception\TestInterface $test
-     */
     public function _before(TestInterface $test): void
     {
         parent::_before($test);

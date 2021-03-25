@@ -6,7 +6,7 @@ namespace PhpTaskman\Core\Config\Loader;
 
 use Consolidation\Config\Loader\ConfigLoader;
 
-class JsonConfigLoader extends ConfigLoader
+final class JsonConfigLoader extends ConfigLoader
 {
     public function load($path)
     {

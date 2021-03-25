@@ -7,21 +7,21 @@ namespace PhpTaskman\Core;
 use Composer\Autoload\ClassLoader;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
+use Exception;
 use League\Container\Container;
-use League\Container\ContainerInterface;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
+use Psr\Container\ContainerInterface;
 use Robo\Application;
 use Robo\Config\Config;
 use Robo\Robo;
+use Robo\Runner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Taskman.
- */
 final class Taskman
 {
     public const APPLICATION_NAME = 'Taskman';
+
     public const VERSION = 'dev-master';
 
     /**
@@ -55,12 +55,6 @@ final class Taskman
     /**
      * Create and configure container.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param Application $application
-     * @param ConfigInterface $config
-     * @param ClassLoader $classLoader
-     *
      * @return Container|\League\Container\ContainerInterface
      */
     public static function createContainer(
@@ -77,9 +71,9 @@ final class Taskman
     }
 
     /**
-     * @param null|string $appName
-     * @param null|string $appVersion
-     * @param null|string $workingDir
+     * @param string|null $appName
+     * @param string|null $appVersion
+     * @param string|null $workingDir
      *
      * @return Application
      */
@@ -96,13 +90,9 @@ final class Taskman
     }
 
     /**
-     * @param ContainerInterface $container
-     *
-     * @throws \Exception
-     *
-     * @return \Robo\Runner
+     * @throws Exception
      */
-    public static function createDefaultRunner(ContainerInterface $container)
+    public static function createDefaultRunner(ContainerInterface $container): Runner
     {
         $cwd = getcwd();
 
@@ -113,7 +103,7 @@ final class Taskman
         }
 
         if (false === realpath($workingDir)) {
-            throw new \Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
+            throw new Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
         }
 
         return (new \Robo\Runner())
@@ -154,7 +144,7 @@ final class Taskman
     /**
      * @param string[] $paths
      *   Array of JSON filepaths.
-     * @param null|Config $config
+     * @param Config|null $config
      *   A config object.
      */
     public static function loadJsonConfiguration(array $paths, ?Config $config): void

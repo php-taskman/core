@@ -6,10 +6,13 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
+use Exception;
 use League\Container\ContainerAwareTrait;
 use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
 use PhpTaskman\CoreTasks\Plugin\Task\YamlTask;
+use ReflectionClass;
+use ReflectionException;
 use Robo\Application;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
@@ -22,9 +25,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Runner.
- */
+use function is_array;
+
 final class Runner
 {
     use ConfigAwareTrait;
@@ -67,12 +69,12 @@ final class Runner
      * @param OutputInterface $output
      * @param ClassLoader $classLoader
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(
-        InputInterface $input = null,
-        OutputInterface $output = null,
-        ClassLoader $classLoader = null
+        ?InputInterface $input = null,
+        ?OutputInterface $output = null,
+        ?ClassLoader $classLoader = null
     ) {
         $this->input = $input ?? new ArgvInput();
         $this->output = $output ?? new ConsoleOutput();
@@ -98,7 +100,7 @@ final class Runner
     /**
      * @param mixed $args
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
      * @return int
      */
@@ -121,7 +123,6 @@ final class Runner
     }
 
     /**
-     * @param bool $hasDefault
      * @param mixed $defaultValue
      *
      * @return int
@@ -132,17 +133,13 @@ final class Runner
             return InputArgument::REQUIRED;
         }
 
-        if (\is_array($defaultValue)) {
+        if (is_array($defaultValue)) {
             return InputArgument::IS_ARRAY;
         }
 
         return InputArgument::OPTIONAL;
     }
 
-    /**
-     * @param \Consolidation\AnnotatedCommand\AnnotatedCommand $command
-     * @param array $commandDefinition
-     */
     private function addOptions(AnnotatedCommand $command, array $commandDefinition): void
     {
         // This command doesn't define any option.
@@ -164,9 +161,6 @@ final class Runner
         }
     }
 
-    /**
-     * @param \Robo\Application $application
-     */
     private function registerDynamicCommands(Application $application): void
     {
         $commandDefinitions = $this->getConfig()->get('commands', null);
@@ -215,7 +209,7 @@ final class Runner
 
             // Append also options of subsequent tasks.
             foreach ($tasks as $taskEntry) {
-                if (!\is_array($taskEntry)) {
+                if (!is_array($taskEntry)) {
                     continue;
                 }
 
@@ -249,19 +243,17 @@ final class Runner
     }
 
     /**
-     * @param \Robo\Application $application
-     *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function registerDynamicTasks(Application $application): void
     {
         $classes = Taskman::discoverTasksClasses('Plugin');
 
-        /** @var \ReflectionClass[] $tasks */
+        /** @var ReflectionClass[] $tasks */
         $tasks = [];
 
         foreach ($classes as $className) {
-            $class = new \ReflectionClass($className);
+            $class = new ReflectionClass($className);
 
             if (!$class->isInstantiable()) {
                 continue;
@@ -303,8 +295,6 @@ final class Runner
 
     /**
      * Register the global commands options.
-     *
-     * @param \Robo\Application $application
      */
     private function registerGlobalCommandOptions(Application $application): void
     {

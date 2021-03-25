@@ -48,7 +48,7 @@ final class Config
         $composerLockPath = realpath($cwd . '/composer.lock');
 
         if (false === $composerLockPath) {
-            return [];
+            return $commandsFilesToLoad;
         }
 
         $composerLockConfig = Taskman::createJsonConfiguration(
@@ -98,7 +98,7 @@ final class Config
         $localConfigFiles = [
             __DIR__ . '/../../config/default.yml',
             __DIR__ . '/../../default.yml',
-            static::getLocalConfigurationFilepath(),
+            self::getLocalConfigurationFilepath(),
         ];
 
         $configs = array_filter(
@@ -121,7 +121,7 @@ final class Config
      * @param string $configuration_file
      *   The default filepath.
      *
-     * @return null|string
+     * @return string|null
      *   The local configuration file path, or null if it doesn't exist.
      */
     public static function getLocalConfigurationFilepath($configuration_file = 'phptaskman/taskman.yml')

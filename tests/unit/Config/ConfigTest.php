@@ -6,6 +6,7 @@ namespace PhpTaskman\Core\Tests\unit\Config;
 
 use Codeception\Test\Unit;
 use PhpTaskman\Core\Config\Config;
+use UnitTester;
 
 /**
  * @internal
@@ -15,7 +16,7 @@ use PhpTaskman\Core\Config\Config;
 final class ConfigTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
     protected $tester;
 

@@ -6,6 +6,7 @@ namespace PhpTaskman\Core\Tests\unit\Config\Loader;
 
 use Codeception\Test\Unit;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
+use UnitTester;
 
 /**
  * @internal
@@ -15,7 +16,7 @@ use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
 final class JsonConfigLoaderTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
     protected $tester;
 

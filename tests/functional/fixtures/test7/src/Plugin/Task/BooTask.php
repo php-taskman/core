@@ -16,6 +16,7 @@ final class BooTask extends BaseTask implements BuilderAwareInterface
     public const ARGUMENTS = [
         'msg',
     ];
+
     public const NAME = 'boo';
 
     /**

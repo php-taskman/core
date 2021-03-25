@@ -10,14 +10,14 @@
         }
     ],
     "require": {
-        "php": ">= 7.1.3",
+        "php": ">= 7.4",
         "ext-json": "*",
-        "consolidation/robo": "^1.4.10",
-        "phptaskman/core-tasks": "^1.1"
+        "consolidation/robo": "3.x-dev",
+        "phptaskman/core-tasks": "dev-master"
     },
     "require-dev": {
         "codeception/codeception": "^3",
-        "drupol/php-conventions": "^1.5.8"
+        "drupol/php-conventions": "^3"
     },
     "suggest": {
         "phptaskman/changelog": "Provides commands to generate a changelog.",

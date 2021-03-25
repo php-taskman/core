@@ -16,9 +16,8 @@ use Robo\Robo;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Event;
 
-/**
- * Class AbstractCommands.
- */
+use const DIRECTORY_SEPARATOR;
+
 abstract class AbstractCommands implements
     BuilderAwareInterface,
     ConfigAwareInterface,
@@ -32,8 +31,6 @@ abstract class AbstractCommands implements
      * Path to YAML configuration file containing command defaults.
      *
      * Command classes should implement this method.
-     *
-     * @return string
      */
     abstract public function getConfigurationFile(): string;
 
@@ -55,8 +52,6 @@ abstract class AbstractCommands implements
      * it back.
      *
      * @hook pre-command-event *
-     *
-     * @param ConsoleCommandEvent $event
      */
     public function loadDefaultConfig(ConsoleCommandEvent $event): void
     {
@@ -75,7 +70,7 @@ abstract class AbstractCommands implements
                     $composerBinDir = './' . $composerBinDir;
                 }
 
-                $composerBinDir = rtrim($composerBinDir, \DIRECTORY_SEPARATOR);
+                $composerBinDir = rtrim($composerBinDir, DIRECTORY_SEPARATOR);
                 $config->set('options.bin_dir', $composerBinDir);
             }
         }

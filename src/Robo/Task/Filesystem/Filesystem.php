@@ -10,8 +10,8 @@ use Robo\TaskAccessor;
 
 final class Filesystem extends FilesystemStack
 {
-    use Tasks;
     use TaskAccessor;
+    use Tasks;
 
     // phpcs:disable
 

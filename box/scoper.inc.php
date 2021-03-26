@@ -19,5 +19,5 @@ return [
         },
     ],
     'whitelist-global-functions' => false,
-  	'whitelist-global-classes' => false,
+    'whitelist-global-classes' => false,
 ];

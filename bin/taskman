@@ -4,20 +4,30 @@
 use PhpTaskman\Core\Runner;
 
 (function () {
-    $composer = json_decode(file_get_contents('composer.json'), true);
-    $composer += ['config' => []];
-    $composer['config'] += ['vendor-dir' => getcwd() . '/vendor'];
+    $paths = [];
 
-    $loader = array_reduce(
-        [
-            $composer['config']['vendor-dir'] . '/autoload.php',
+    if (file_exists('composer.json')) {
+        $composer = json_decode(file_get_contents('composer.json'), true);
+        $composer += ['config' => []];
+        $composer['config'] += ['vendor-dir' => getcwd() . '/vendor'];
+
+        $paths[] = $composer['config']['vendor-dir'] . '/autoload.php';
+    }
+
+    $paths = [
+        ...$paths,
+        ...[
             getcwd() . '/vendor/autoload.php',
             __DIR__ . '/vendor/autoload.php',
             __DIR__ . '/../vendor/autoload.php',
             __DIR__ . '/../../autoload.php',
             __DIR__ . '/../../../autoload.php',
             __DIR__ . '/../../vendor/autoload.php'
-        ],
+        ]
+    ];
+
+    $loader = array_reduce(
+        $paths,
         static function (?string $loaded, string $file): ?string {
             if (!$loaded && is_file($file)) {
                 require_once($file);

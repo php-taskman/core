@@ -14,7 +14,5 @@
     ],
     "output": "taskman.phar",
     "compression": "GZ",
-    "git-commit-short": "git_commit_short",
-    "algorithm": "OPENSSL",
-    "key": "../../../taskman-phar-private.pem"
+    "git-commit-short": "git_commit_short"
 }

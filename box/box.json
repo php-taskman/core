@@ -1,0 +1,20 @@
+{
+    "alias": "taskman.phar",
+    "banner": false,
+    "force-autodiscovery": true,
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\PhpScoper"
+    ],
+    "files": [
+        "LICENSE"
+    ],
+    "directories": [
+        "src",
+        "vendor"
+    ],
+    "output": "taskman.phar",
+    "compression": "GZ",
+    "git-commit-short": "git_commit_short",
+    "algorithm": "OPENSSL",
+    "key": "../../../taskman-phar-private.pem"
+}

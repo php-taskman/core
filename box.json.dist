@@ -1,6 +1,7 @@
 {
     "alias": "taskman.phar",
     "banner": false,
+    "chmod": 777,
     "force-autodiscovery": true,
     "php-scoper": "box/scoper.inc.php",
     "compactors": [

@@ -1,6 +1,13 @@
 {
     "alias": "taskman.phar",
-    "banner": false,
+    "banner": [
+      "PHP Taskman phar archive",
+      "",
+      "(c) Pol Dellaiera <pol.dellaiera@protonmail.com>",
+      "",
+      "For the full copyright and license information, please view the LICENSE",
+      "file that was distributed with the source code."
+    ]
     "chmod": "777",
     "force-autodiscovery": true,
     "php-scoper": "box/scoper.inc.php",

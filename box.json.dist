@@ -2,6 +2,7 @@
     "alias": "taskman.phar",
     "banner": false,
     "force-autodiscovery": true,
+    "php-scoper": "box/scoper.inc.php",
     "compactors": [
         "KevinGH\\Box\\Compactor\\PhpScoper"
     ],

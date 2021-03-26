@@ -22,7 +22,7 @@ final class Taskman
 {
     public const APPLICATION_NAME = 'Taskman';
 
-    public const VERSION = '@git_commit_short@';
+    public const VERSION = 'dev-master';
 
     /**
      * Create default configuration.

@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use PhpTaskman\Core\Runner;
+
 (function () {
     $composer = json_decode(file_get_contents('composer.json'), true);
     $composer += ['config' => []];
@@ -39,7 +41,7 @@
 
     $classLoader = require $loader;
 
-    $runner = new \PhpTaskman\Core\Runner(null, null, $classLoader);
+    $runner = new Runner(null, null, $classLoader);
 
     exit($runner->run($_SERVER['argv']));
 })();

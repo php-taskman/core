@@ -55,7 +55,7 @@ final class Runner
 
         $this->application = Taskman::createDefaultApplication(
             Taskman::APPLICATION_NAME,
-            Taskman::VERSION
+            Taskman::VERSION === '@' . 'git_commit_short' . '@' ? 'dev-master' : Taskman::VERSION
         );
 
         $this->container = Taskman::createContainer(

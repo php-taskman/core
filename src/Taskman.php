@@ -71,13 +71,10 @@ final class Taskman
     }
 
     public static function createDefaultApplication(
-        ?string $appName = null,
-        ?string $appVersion = null,
+        string $appName,
+        string $appVersion,
         ?string $workingDir = null
     ): Application {
-        $appName = $appName ?? self::APPLICATION_NAME;
-        $appVersion = $appVersion ?? self::VERSION === '@'.'git_commit_short'.'@' ? 'dev-master' : self::VERSION;
-
         $app = Robo::createDefaultApplication($appName, $appVersion);
 
         $app->setAutoExit(false);

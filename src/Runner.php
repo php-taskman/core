@@ -73,10 +73,8 @@ final class Runner
      * @param mixed $args
      *
      * @throws ReflectionException
-     *
-     * @return int
      */
-    public function run($args)
+    public function run($args): int
     {
         // Register command classes.
         $this->runner->registerCommandClasses($this->application, [YamlCommands::class]);
@@ -99,7 +97,7 @@ final class Runner
      */
     protected function getCommandArgumentMode(bool $hasDefault, $defaultValue): int
     {
-        if (!$hasDefault) {
+        if (false === $hasDefault) {
             return InputArgument::REQUIRED;
         }
 

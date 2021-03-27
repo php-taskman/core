@@ -17,18 +17,14 @@ final class Config
      * @return string[]
      *   The list of all the YAML files to include.
      */
-    public static function findFilesToIncludeInConfiguration($cwd)
+    public static function findFilesToIncludeInConfiguration(string $cwd): array
     {
-        // Check if composer.json exists.
-        $composerPath = realpath($cwd . '/composer.json');
-
-        if (false === $composerPath) {
-            return [];
-        }
-
-        // Get the vendor-bin property from the composer.json.
-        $composerConfig = Taskman::createJsonConfiguration([$composerPath]);
-        $vendorDir = $composerConfig->get('vendor-dir', $cwd . '/vendor');
+        // Keep a reference of the default filename that we need to load from
+        // each packages.
+        $commandsFilesToLoad = [
+            'default' => 'taskman.yml.dist',
+            'defaultOverride' => 'taskman.yml',
+        ];
 
         // Keep a reference of the default filename that we need to load from
         // each packages.
@@ -37,61 +33,61 @@ final class Config
             'defaultCommand' => 'default.yml',
         ];
 
-        // Keep a reference of the default filename that we need to load from
-        // each packages.
-        $commandsFilesToLoad = [
-            'default' => 'taskman.yml.dist',
-            'defaultOverride' => 'taskman.yml',
-        ];
+        $configs = $configFilesToLoad;
+        $commands = $commandsFilesToLoad;
 
-        // Check if composer.lock exists.
-        $composerLockPath = realpath($cwd . '/composer.lock');
+        // Check if composer.json exists.
+        $composerPath = realpath($cwd . '/composer.json');
 
-        if (false === $composerLockPath) {
-            return $commandsFilesToLoad;
-        }
+        if (false !== $composerPath) {
+            // Get the vendor-bin property from the composer.json.
+            $composerConfig = Taskman::createJsonConfiguration([$composerPath]);
+            $vendorDir = $composerConfig->get('vendor-dir', $cwd . '/vendor');
 
-        $composerLockConfig = Taskman::createJsonConfiguration(
-            [$composerLockPath]
-        );
+            // Check if composer.lock exists.
+            $composerLockPath = realpath($cwd . '/composer.lock');
 
-        // Get the dependencies packages directories.
-        $packageDirectories = array_filter(
-            array_map(
-                static function ($package) use ($vendorDir) {
-                    return realpath($vendorDir . '/' . $package['name']);
-                },
-                array_merge(
-                    $composerLockConfig->get('packages', []),
-                    $composerLockConfig->get('packages-dev', [])
-                )
-            )
-        );
+            if (false !== $composerLockPath) {
+                $composerLockConfig = Taskman::createJsonConfiguration(
+                    [$composerLockPath]
+                );
 
-        $packageDirectories[] = $cwd;
+                // Get the dependencies packages directories.
+                $packageDirectories = array_filter(
+                    array_map(
+                        static function ($package) use ($vendorDir) {
+                            return realpath($vendorDir . '/' . $package['name']);
+                        },
+                        array_merge(
+                            $composerLockConfig->get('packages', []),
+                            $composerLockConfig->get('packages-dev', [])
+                        )
+                    )
+                );
 
-        $configs = [];
-        $commands = [];
+                $packageDirectories[] = $cwd;
 
-        // Loop over each composer.json, deduct the package directory and probe for files to include.
-        foreach ($packageDirectories as $packageDirectory) {
-            foreach ($configFilesToLoad as $taskmanFile) {
-                $candidateFile = $packageDirectory . '/' . $taskmanFile;
-                $configs[] = $candidateFile;
-            }
+                // Loop over each composer.json, deduct the package directory and probe for files to include.
+                foreach ($packageDirectories as $packageDirectory) {
+                    foreach ($configFilesToLoad as $taskmanFile) {
+                        $candidateFile = $packageDirectory . '/' . $taskmanFile;
+                        $configs[] = $candidateFile;
+                    }
 
-            $composerConfig = Taskman::createJsonConfiguration(
-                [$packageDirectory . '/composer.json']
-            );
+                    $composerConfig = Taskman::createJsonConfiguration(
+                        [$packageDirectory . '/composer.json']
+                    );
 
-            foreach ($composerConfig->get('extra.taskman.files', []) as $commandFile) {
-                $commandFile = $packageDirectory . '/' . $commandFile;
-                $configs[] = $commandFile;
-            }
+                    foreach ($composerConfig->get('extra.taskman.files', []) as $commandFile) {
+                        $commandFile = $packageDirectory . '/' . $commandFile;
+                        $configs[] = $commandFile;
+                    }
 
-            foreach ($commandsFilesToLoad as $taskmanFile) {
-                $candidateFile = $packageDirectory . '/' . $taskmanFile;
-                $commands[] = $candidateFile;
+                    foreach ($commandsFilesToLoad as $taskmanFile) {
+                        $candidateFile = $packageDirectory . '/' . $taskmanFile;
+                        $commands[] = $candidateFile;
+                    }
+                }
             }
         }
 

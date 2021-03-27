@@ -5,11 +5,16 @@ use PhpTaskman\Core\Runner;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-(function () {
+(static function () {
     $paths = [];
 
     if (file_exists('composer.json')) {
-        $composer = json_decode(file_get_contents('composer.json'), true);
+        $composer = json_decode(
+            file_get_contents('composer.json'),
+            TRUE,
+            512,
+            JSON_THROW_ON_ERROR
+        );
         $composer += ['config' => []];
         $composer['config'] += ['vendor-dir' => getcwd() . '/vendor'];
 
@@ -22,9 +27,10 @@ use Symfony\Component\Console\Output\ConsoleOutput;
             getcwd() . '/vendor/autoload.php',
             __DIR__ . '/vendor/autoload.php',
             __DIR__ . '/../vendor/autoload.php',
+            __DIR__ . '/../../vendor/autoload.php',
+            __DIR__ . '/../autoload.php',
             __DIR__ . '/../../autoload.php',
             __DIR__ . '/../../../autoload.php',
-            __DIR__ . '/../../vendor/autoload.php'
         ]
     ];
 
@@ -51,7 +57,9 @@ use Symfony\Component\Console\Output\ConsoleOutput;
         exit(1);
     }
 
-    $runner = new Runner(new ArgvInput(), new ConsoleOutput(), require $loader);
+    $autoloader = require $loader;
+
+    $runner = new Runner(new ArgvInput(), new ConsoleOutput(), $autoloader);
 
     exit($runner->run($_SERVER['argv']));
 })();

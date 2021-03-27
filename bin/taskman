@@ -6,7 +6,9 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 (static function () {
-    $paths = [];
+    $paths = [
+        __DIR__ . '/../vendor/autoload.php',
+    ];
 
     if (file_exists('composer.json')) {
         $composer = json_decode(
@@ -20,19 +22,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
         $paths[] = $composer['config']['vendor-dir'] . '/autoload.php';
     }
-
-    $paths = [
-        ...$paths,
-        ...[
-            getcwd() . '/vendor/autoload.php',
-            __DIR__ . '/vendor/autoload.php',
-            __DIR__ . '/../vendor/autoload.php',
-            __DIR__ . '/../../vendor/autoload.php',
-            __DIR__ . '/../autoload.php',
-            __DIR__ . '/../../autoload.php',
-            __DIR__ . '/../../../autoload.php',
-        ]
-    ];
 
     $loader = array_reduce(
         $paths,
@@ -56,7 +45,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
         );
         exit(1);
     }
-
+    
     $autoloader = require $loader;
 
     $runner = new Runner(new ArgvInput(), new ConsoleOutput(), $autoloader);

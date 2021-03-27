@@ -2,6 +2,8 @@
 <?php
 
 use PhpTaskman\Core\Runner;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 (function () {
     $paths = [];
@@ -49,9 +51,7 @@ use PhpTaskman\Core\Runner;
         exit(1);
     }
 
-    $classLoader = require $loader;
-
-    $runner = new Runner(null, null, $classLoader);
+    $runner = new Runner(new ArgvInput(), new ConsoleOutput(), require $loader);
 
     exit($runner->run($_SERVER['argv']));
 })();

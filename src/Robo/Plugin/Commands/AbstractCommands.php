@@ -14,7 +14,6 @@ use Robo\Contract\IOAwareInterface;
 use Robo\LoadAllTasks;
 use Robo\Robo;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\EventDispatcher\Event;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -55,7 +54,6 @@ abstract class AbstractCommands implements
      */
     public function loadDefaultConfig(ConsoleCommandEvent $event): void
     {
-        /** @var \Robo\Config\Config $config */
         $config = $this->getConfig();
 
         if (null === $config->get('options.bin_dir')) {

@@ -9,10 +9,11 @@ use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Exception;
 use League\Container\Container;
+use PhpTaskman\Core\Config\Config;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
 use Psr\Container\ContainerInterface;
 use Robo\Application;
-use Robo\Config\Config;
+use Robo\Config\Config as RoboConfig;
 use Robo\Robo;
 use Robo\Runner;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,13 +32,13 @@ final class Taskman
      *
      * @return \Consolidation\Config\ConfigInterface
      */
-    public static function createConfiguration($paths)
+    public static function createConfiguration(array $paths = [])
     {
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
         if (false !== $cwd = getcwd()) {
-            $paths = \PhpTaskman\Core\Config\Config::findFilesToIncludeInConfiguration($cwd);
+            $paths = Config::findFilesToIncludeInConfiguration($cwd);
         }
 
         // Load the configuration.
@@ -54,8 +55,6 @@ final class Taskman
 
     /**
      * Create and configure container.
-     *
-     * @return Container|\League\Container\ContainerInterface
      */
     public static function createContainer(
         InputInterface $input,
@@ -63,22 +62,19 @@ final class Taskman
         Application $application,
         ConfigInterface $config,
         ClassLoader $classLoader
-    ) {
-        $container = Robo::createDefaultContainer($input, $output, $application, $config, $classLoader);
-        $container->get('commandFactory')->setIncludeAllPublicMethods(false);
+    ): ContainerInterface {
+        $container = new Container();
+
+        Robo::configureContainer($container, $application, $config, $input, $output, $classLoader);
 
         return $container;
     }
 
-    /**
-     * @param string|null $appName
-     * @param string|null $appVersion
-     * @param string|null $workingDir
-     *
-     * @return Application
-     */
-    public static function createDefaultApplication($appName = null, $appVersion = null, $workingDir = null)
-    {
+    public static function createDefaultApplication(
+        ?string $appName = null,
+        ?string $appVersion = null,
+        ?string $workingDir = null
+    ): Application {
         $appName = $appName ?? self::APPLICATION_NAME;
         $appVersion = $appVersion ?? self::VERSION;
 
@@ -106,7 +102,7 @@ final class Taskman
             throw new Exception(sprintf('Working directory "%s" does not exists.', $workingDir));
         }
 
-        return (new \Robo\Runner())
+        return (new Runner())
             ->setRelativePluginNamespace('Robo\Plugin')
             ->setContainer($container);
     }
@@ -114,13 +110,11 @@ final class Taskman
     /**
      * @param string[] $paths
      *   Array of JSON filepaths.
-     *
-     * @return Config
-     *   A config object.
      */
-    public static function createJsonConfiguration(array $paths)
+    public static function createJsonConfiguration(array $paths): ConfigInterface
     {
-        $config = new Config();
+        $config = new RoboConfig();
+
         self::loadJsonConfiguration($paths, $config);
 
         return $config;
@@ -135,6 +129,7 @@ final class Taskman
     {
         /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
         $discovery = Robo::service('relativeNamespaceDiscovery');
+
         $discovery->setRelativeNamespace($relativeNamespace . '\Task')
             ->setSearchPattern('*Task.php');
 
@@ -144,10 +139,10 @@ final class Taskman
     /**
      * @param string[] $paths
      *   Array of JSON filepaths.
-     * @param Config|null $config
+     * @param ConfigInterface|null $config
      *   A config object.
      */
-    public static function loadJsonConfiguration(array $paths, ?Config $config): void
+    public static function loadJsonConfiguration(array $paths, ?ConfigInterface $config): void
     {
         if (null === $config) {
             // This needs to be removed when Robo will have the method replace()

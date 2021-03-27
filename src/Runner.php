@@ -6,7 +6,6 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use Exception;
 use League\Container\ContainerAwareTrait;
 use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
@@ -17,12 +16,11 @@ use Robo\Application;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Runner as RoboRunner;
 use Robo\Tasks;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function is_array;
@@ -32,59 +30,33 @@ final class Runner
     use ConfigAwareTrait;
     use ContainerAwareTrait;
 
-    /**
-     * @var Application
-     */
-    private $application;
+    private Application $application;
 
-    /**
-     * @var \Composer\Autoload\ClassLoader
-     */
-    private $classLoader;
+    private ClassLoader $classLoader;
 
-    /**
-     * @var InputInterface
-     */
-    private $input;
+    private InputInterface $input;
 
-    /**
-     * @var OutputInterface
-     */
-    private $output;
+    private OutputInterface $output;
 
-    /**
-     * @var \Robo\Runner
-     */
-    private $runner;
+    private RoboRunner $runner;
 
-    /**
-     * @var string
-     */
-    private $workingDir;
+    private string $workingDir;
 
-    /**
-     * Runner constructor.
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param ClassLoader $classLoader
-     *
-     * @throws Exception
-     */
     public function __construct(
-        ?InputInterface $input = null,
-        ?OutputInterface $output = null,
-        ?ClassLoader $classLoader = null
+        InputInterface $input,
+        OutputInterface $output,
+        ClassLoader $classLoader
     ) {
-        $this->input = $input ?? new ArgvInput();
-        $this->output = $output ?? new ConsoleOutput();
-        $this->classLoader = $classLoader ?? new ClassLoader();
+        $this->input = $input;
+        $this->output = $output;
+        $this->classLoader = $classLoader;
 
-        $this->config = Taskman::createConfiguration(
-            []
+        $this->config = Taskman::createConfiguration();
+
+        $this->application = Taskman::createDefaultApplication(
+            Taskman::APPLICATION_NAME,
+            Taskman::VERSION
         );
-
-        $this->application = Taskman::createDefaultApplication();
 
         $this->container = Taskman::createContainer(
             $this->input,
@@ -124,10 +96,8 @@ final class Runner
 
     /**
      * @param mixed $defaultValue
-     *
-     * @return int
      */
-    protected function getCommandArgumentMode(bool $hasDefault, $defaultValue)
+    protected function getCommandArgumentMode(bool $hasDefault, $defaultValue): int
     {
         if (!$hasDefault) {
             return InputArgument::REQUIRED;

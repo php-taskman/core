@@ -8,15 +8,11 @@ use Composer\Autoload\ClassLoader;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Exception;
-use League\Container\Container;
 use PhpTaskman\Core\Config\Loader\JsonConfigLoader;
 use Psr\Container\ContainerInterface;
 use Robo\Application;
 use Robo\Config\Config;
 use Robo\Robo;
-use Robo\Runner;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 final class Taskman
 {
@@ -24,14 +20,7 @@ final class Taskman
 
     public const VERSION = 'dev-master';
 
-    /**
-     * Create default configuration.
-     *
-     * @param mixed $paths
-     *
-     * @return \Consolidation\Config\ConfigInterface
-     */
-    public static function createConfiguration($paths)
+    public static function createConfiguration(array $paths = []): ConfigInterface
     {
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
@@ -52,19 +41,12 @@ final class Taskman
         return $config;
     }
 
-    /**
-     * Create and configure container.
-     *
-     * @return Container|\League\Container\ContainerInterface
-     */
     public static function createContainer(
-        InputInterface $input,
-        OutputInterface $output,
         Application $application,
         ConfigInterface $config,
         ClassLoader $classLoader
-    ) {
-        $container = Robo::createDefaultContainer($input, $output, $application, $config, $classLoader);
+    ): ContainerInterface {
+        $container = Robo::createContainer($application, $config, $classLoader);
         $container->get('commandFactory')->setIncludeAllPublicMethods(false);
 
         return $container;
@@ -92,7 +74,7 @@ final class Taskman
     /**
      * @throws Exception
      */
-    public static function createDefaultRunner(ContainerInterface $container): Runner
+    public static function createDefaultRunner(ContainerInterface $container)
     {
         $cwd = getcwd();
 

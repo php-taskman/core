@@ -23,7 +23,7 @@ final class Taskman
 {
     public const APPLICATION_NAME = 'Taskman';
 
-    public const VERSION = 'dev-master';
+    public const VERSION = '@git_commit_short@';
 
     /**
      * Create default configuration.
@@ -76,7 +76,7 @@ final class Taskman
         ?string $workingDir = null
     ): Application {
         $appName = $appName ?? self::APPLICATION_NAME;
-        $appVersion = $appVersion ?? self::VERSION;
+        $appVersion = $appVersion ?? self::VERSION === '@'.'git_commit_short'.'@' ? 'dev-master' : self::VERSION;
 
         $app = Robo::createDefaultApplication($appName, $appVersion);
 

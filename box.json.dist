@@ -11,6 +11,7 @@
     "chmod": "777",
     "force-autodiscovery": true,
     "php-scoper": "box/scoper.inc.php",
+    "git-commit-short": "git_commit_short",
     "compactors": [
         "KevinGH\\Box\\Compactor\\PhpScoper"
     ],

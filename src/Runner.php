@@ -6,7 +6,6 @@ namespace PhpTaskman\Core;
 
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\AnnotatedCommand;
-use Exception;
 use League\Container\ContainerAwareTrait;
 use League\Container\Inflector\Inflector;
 use PhpTaskman\Core\Robo\Plugin\Commands\YamlCommands;
@@ -60,6 +59,8 @@ final class Runner
         );
 
         $this->container = Taskman::createContainer(
+            $this->input,
+            $this->output,
             $this->application,
             $this->config,
             $this->classLoader

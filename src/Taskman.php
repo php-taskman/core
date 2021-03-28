@@ -27,28 +27,25 @@ final class Taskman
 
     /**
      * Create default configuration.
-     *
-     * @param mixed $paths
-     *
-     * @return \Consolidation\Config\ConfigInterface
      */
-    public static function createConfiguration(array $paths = [])
+    public static function createConfiguration(array $paths = []): ConfigInterface
     {
         // Create a default configuration.
         $config = Robo::createConfiguration($paths);
 
         if (false !== $cwd = getcwd()) {
             $paths = Config::findFilesToIncludeInConfiguration($cwd);
+            $config->set('options.working_dir', $cwd);
         }
+
+        [$scriptPath] = get_included_files();
+        $config->set('options.bin', $scriptPath);
 
         // Load the configuration.
         Robo::loadConfiguration(
             $paths,
             $config
         );
-
-        [$scriptPath] = get_included_files();
-        $config->set('options.bin', $scriptPath);
 
         return $config;
     }

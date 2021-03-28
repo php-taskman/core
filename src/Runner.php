@@ -272,8 +272,6 @@ final class Runner
             return;
         }
 
-        $config = $this->getConfig();
-
         foreach ($globalOptions as $option => $optionDefinition) {
             $optionMachineName = 'options.' . ($optionDefinition['config'] ?? $option);
 
@@ -295,7 +293,7 @@ final class Runner
                 $optionDefinition['default'] = realpath($optionDefinition['default']);
             }
 
-            $config->set($optionMachineName, $optionDefinition['default']);
+            $this->config->set($optionMachineName, $optionDefinition['default']);
 
             $optionDefinition += [
                 'mode' => InputOption::VALUE_OPTIONAL,

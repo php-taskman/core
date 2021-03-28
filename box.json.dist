@@ -21,7 +21,8 @@
     "directories": [
         "bin",
         "src",
-        "vendor"
+        "vendor",
+        "config"
     ],
     "output": "taskman.phar",
     "compression": "GZ"
